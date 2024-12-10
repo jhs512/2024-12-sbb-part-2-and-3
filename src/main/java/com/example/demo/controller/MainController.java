@@ -7,10 +7,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller // 점원, service: 요리사
 public class MainController {
     @GetMapping("/")
-    @ResponseBody
-    public int home() {
-        System.out.println("Home Page Requested");
-        return 22;
+    public String home() {
+        return "redirect:/question/list";
     }
 
     @GetMapping("/about")
