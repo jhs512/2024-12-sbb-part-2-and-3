@@ -37,5 +37,5 @@ out/
 .vscode/
 
 ### Custom ###
-db.dev.mv.db
-db.dev.trace.db
+db_dev.mv.db
+db_dev.trace.db
