@@ -515,3 +515,11 @@ selest * from question [42001-232]
 2024-12-10 14:25:49.730430+09:00 jdbc[13]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]selest * from question"; expected "SAVEPOINT, SCRIPT, SHUTDOWN"; SQL statement:
 selest * from question [42001-232]
+2024-12-11 15:38:51.310483+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "delete [*]* from question\000d\000awhere id != 2"; expected "identifier"; SQL statement:
+delete * from question
+where id != 2 [42001-232]
+2024-12-11 15:39:09.397305+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "delete from question\000d\000awhere id != 2 [*]cascade"; SQL statement:
+delete from question
+where id != 2 cascade [42000-232]
