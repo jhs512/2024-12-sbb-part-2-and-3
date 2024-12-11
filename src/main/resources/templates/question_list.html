@@ -1,1 +1,21 @@
-<h2>Hello Template</h2>
+<table xmlns:th="http://www.w3.org/1999/xhtml">
+  <!-- 표의 머리글을 정의하는 섹션 -->
+  <thead>
+  <!-- 표의 머리글을 정의하는 섹션 -->
+  <tr>
+    <th>제목</th>
+    <!-- 열 제목: '작성일시' 열을 표시 -->
+    <th>작성일시</th>
+  </tr>
+  </thead>
+  <tbody>
+  <!-- 서버에서 전달된 questionList 데이터를 반복하며 표의 행을 생성 -->
+  <!-- th:each는 반복문 / questionList의 값을 하나씩 가져와 question 변수에 담는다. -->
+  <tr th:each="question : ${questionList}">
+    <!-- 각 question 객체의 subject(제목) 값을 첫 번째 열에 출력 -->
+    <td th:text="${question.subject}"></td>
+    <!-- 각 question 객체의 createDate(작성일시) 값을 두 번째 열에 출력 -->
+    <td th:text="${question.createDate}"></td>
+  </tr>
+  </tbody>
+</table>
