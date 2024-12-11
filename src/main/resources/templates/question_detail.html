@@ -2,3 +2,19 @@
 
 <h1 th:text="${question.subject}"></h1>
 <div th:text="${question.content}"></div>
+
+<!-- HTML <form> 태그 : 사용자가 데이터를 입력하여 서버로 전송할 수 있는 폼 생성 -->
+<!-- th:action : 서버로 데이터를 전송할 URL 경로를 설정 -->
+<form th:action="@{|/answer/create/${question.id}|}" method="post">
+
+  <!-- <textarea> 태그 : 사용자가 텍스트를 입력할 수 있는 다중행 입력 필드 생성 -->
+  <textarea name="content" id="content" rows="15"></textarea>
+  <!-- name="content" : 서버로 전송되는 데이터의 이름을 "content"로 설정 -->
+  <!-- id="content" : 이 필드를 특정 지을 수 있는 고유 식별자 -->
+  <!-- rows="15" : 입력 필드의 높이를 15줄로 설정 -->
+
+  <!-- <input> 태그 : 제출 버튼 생성 -->
+  <input type="submit" value="답변등록">
+  <!-- type="submit" : 버튼을 클릭하면 폼 데이터를 서버로 전송 -->
+  <!-- value="답변등록" : 버튼의 텍스트 표시 내용 -->
+</form>
