@@ -1,5 +1,6 @@
-package com.ann.annovation;
+package com.ann.annovation.answer;
 
+import com.ann.annovation.question.Question;
 import jakarta.persistence.*;
 import lombok.*;
 

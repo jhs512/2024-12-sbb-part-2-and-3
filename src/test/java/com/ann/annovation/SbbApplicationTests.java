@@ -1,5 +1,9 @@
 package com.ann.annovation;
 
+import com.ann.annovation.answer.Answer;
+import com.ann.annovation.answer.AnswerRepository;
+import com.ann.annovation.question.Question;
+import com.ann.annovation.question.QuestionRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

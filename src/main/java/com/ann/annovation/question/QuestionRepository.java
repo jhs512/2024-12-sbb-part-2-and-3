@@ -1,4 +1,4 @@
-package com.ann.annovation;
+package com.ann.annovation.question;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
