@@ -11,7 +11,10 @@
   <tbody>
   <!-- 서버에서 전달된 questionList 데이터를 반복하며 표의 행을 생성 -->
   <!-- th:each는 반복문 / questionList의 값을 하나씩 가져와 question 변수에 담는다. -->
-  <tr th:each="question : ${questionList}">
+  <tr th:each="question, index : ${questionList}">
+    <td>
+      <a th:href="@{|/question/detail/${question.id}|}" th:text="${question.subject}"></a>
+    </td>
     <!-- 각 question 객체의 subject(제목) 값을 첫 번째 열에 출력 -->
     <td th:text="${question.subject}"></td>
     <!-- 각 question 객체의 createDate(작성일시) 값을 두 번째 열에 출력 -->
