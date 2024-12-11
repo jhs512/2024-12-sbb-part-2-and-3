@@ -11,13 +11,13 @@ import java.util.List;
 @Controller
 public class QuestionController {
 
-    private final QuestionRepository questionRepository;
+    private final QuestionService questionService;
 
     @GetMapping("/question/list")
     public  String list(Model model) {
 
-        // QuestionRepository의 findAll 메서드를 호출하여 모든 Question 객체를 가져옴
-        List<Question> questionList = this.questionRepository.findAll();
+        // QuestionService의 getList 메서드를 호출하여 모든 Question 객체를 가져옴
+        List<Question> questionList = this.questionService.getList();
 
         // 가져온 questionList를 Model 객체에 추가하여 뷰에서 사용할 수 있도록 전달
         // 뷰(View) : 사용자가 브라우저에서 보는 모든 것(버튼, 텍스트, 이미지 등)
