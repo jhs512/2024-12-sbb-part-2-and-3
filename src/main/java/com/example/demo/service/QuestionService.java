@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.DataNotFoundException;
 import com.example.demo.entity.Question;
+import com.example.demo.entity.SiteUser;
 import com.example.demo.repository.QuestionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -40,11 +41,12 @@ public class QuestionService {
         return questionRepository.findAll(pageable);
     }
 
-    public void create(String subject, String content) {
+    public void create(String subject, String content, SiteUser user) {
         Question q = new Question();
         q.setSubject(subject);
         q.setContent(content);
         q.setCreateDate(LocalDateTime.now());
+        q.setAuthor(user);
 
         questionRepository.save(q);
     }
