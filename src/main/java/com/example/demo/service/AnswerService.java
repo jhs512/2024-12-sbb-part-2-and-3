@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import com.example.demo.DataNotFoundException;
 import com.example.demo.entity.Answer;
 import com.example.demo.entity.Question;
 import com.example.demo.entity.SiteUser;
@@ -8,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -23,5 +25,25 @@ public class AnswerService {
 
         answerRepository.save(answer);
         return answer;
+    }
+
+    public Answer getAnswer(Integer id) {
+        Optional<Answer> answer = answerRepository.findById(id);
+        if (answer.isPresent()) {
+            return answer.get();
+        } else {
+            throw new DataNotFoundException("answer not found");
+        }
+    }
+
+    public void modify(Answer answer, String content) {
+        answer.setContent(content);
+        answer.setModifyDate(LocalDateTime.now());
+
+        answerRepository.save(answer);
+    }
+
+    public void delete(Answer answer) {
+        answerRepository.delete(answer);
     }
 }
