@@ -1,0 +1,8 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create
+  datasource:
+    url: jdbc:mysql://localhost:3307/sbb
+    username: root
+    password: q1w2e3r4 # ????? git ignore ???
