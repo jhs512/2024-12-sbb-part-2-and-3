@@ -23,12 +23,6 @@ public class QuestionController {
         return "question_list";
     }
 
-    @GetMapping("/")
-    public String root() {
-        return "redirect:/question/list";
-    }
-
-
     @GetMapping("/detail/{id}")
     public String detail(Model model, @PathVariable("id") Integer id) {
         Question question = questionService.getQuestion(id);
