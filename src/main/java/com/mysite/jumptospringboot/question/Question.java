@@ -1,5 +1,6 @@
-package com.mysite.jumptospringboot;
+package com.mysite.jumptospringboot.question;
 
+import com.mysite.jumptospringboot.answer.Answer;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

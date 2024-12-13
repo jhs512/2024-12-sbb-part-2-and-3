@@ -1,4 +1,4 @@
-package com.mysite.jumptospringboot;
+package com.mysite.jumptospringboot.question;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

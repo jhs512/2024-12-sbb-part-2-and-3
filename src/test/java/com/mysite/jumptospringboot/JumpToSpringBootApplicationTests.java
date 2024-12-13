@@ -1,9 +1,10 @@
 package com.mysite.jumptospringboot;
 
-import org.assertj.core.api.Assertions;
+import com.mysite.jumptospringboot.answer.Answer;
+import com.mysite.jumptospringboot.answer.AnswerRepository;
+import com.mysite.jumptospringboot.question.Question;
+import com.mysite.jumptospringboot.question.QuestionRepository;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.parallel.Execution;
-import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
@@ -18,8 +19,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-//@Transactional
-//@Rollback(false)
+@Transactional
+@Rollback(value = false)
 class JumpToSpringBootApplicationTests {
     @Autowired
     private QuestionRepository questionRepository;
@@ -143,7 +144,7 @@ class JumpToSpringBootApplicationTests {
     }
 
     @Test
-    @Transactional
+//    @Transactional
     @Order(11)
     void testJpa11() {
         Optional<Question> oq = questionRepository.findById(2); // 트랜잭션 종료
