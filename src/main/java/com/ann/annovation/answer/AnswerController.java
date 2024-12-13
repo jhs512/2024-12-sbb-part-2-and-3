@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class AnswerController {
 
     private final QuestionService questionService;
+    private final AnswerService answerService;
 
     @PostMapping("/create/{id}")
     public String createAnswer(
@@ -24,7 +25,7 @@ public class AnswerController {
             @RequestParam(value="content") String content // 요청의 "content" 파라미터 값을 String 타입 변수 content에 매핑
     ) {
         Question question = this.questionService.getQuestion(id);
-        // TODO: 답변을 저장한다.
+        this.answerService.create(question, content);
         return String.format("redirect:/question/detail/%s", id);
     }
 }
