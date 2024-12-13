@@ -1,8 +1,7 @@
 <!DOCTYPE html>
-<table lang="ko" xmlns:th="http://www.thymeleaf.org">
 
   <!-- layout.html 상속 -->
-  <html layout:decorate="~{layout}">
+<html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
   <!-- layout:fragment="content": layout.html에서 content라는 이름으로 이 부분이 삽입될 위치를 지정 -->
   <div layout:fragment="content" class="container my-3">
     <!-- 부트스트랩 스타일을 적용한 표(table) -->
