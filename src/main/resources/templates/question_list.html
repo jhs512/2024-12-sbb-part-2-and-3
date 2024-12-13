@@ -17,8 +17,11 @@
     </thead>
     <tbody>
     <tr th:each="question : ${questionList}">
-        <td th:text="${question.subject}"> no load </td>
-        <td th:text="${question.createDate}"> no load </td>
+        <td>
+            <a th:href="@{|/question/detail/${question.id}|}"
+            th:text="${question.subject}"></a>
+        </td>
+        <td th:text="${question.createDate}"></td>
     </tr>
     </tbody>
 </table>
