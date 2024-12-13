@@ -11,7 +11,7 @@ import java.util.List;
 @Getter @Setter // 일반적으로는 엔터티에는 Setter를 사용하지 않는다. 다른 방식으로 안전하게 주입한다. (간단한 예제)
 public class Question {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer id; // Spring Data JPA로 Repository 생성할 때 Wrapper class를 이용한다.
 
     @Column(length = 200)
     private String subject;

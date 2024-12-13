@@ -2,7 +2,11 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
   datasource:
     url: jdbc:mysql://localhost:3307/sbb
     username: root
-    password: q1w2e3r4 # ????? git ignore ???
+    password: q1w2e3r4 # git ignore
