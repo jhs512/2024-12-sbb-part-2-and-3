@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <table lang="ko" xmlns:th="http://www.thymeleaf.org">
 
-  <!-- 부트스트랩 CSS 파일을 적용 -->
-  <link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
-  <!-- 부트스트랩의 container 클래스를 사용하여 중앙 정렬 및 여백 추가 -->
-  <div class="container my-3">
+  <!-- layout.html 상속 -->
+  <html layout:decorate="~{layout}">
+  <!-- layout:fragment="content": layout.html에서 content라는 이름으로 이 부분이 삽입될 위치를 지정 -->
+  <div layout:fragment="content" class="container my-3">
     <!-- 부트스트랩 스타일을 적용한 표(table) -->
     <table class="table">
       <!-- 테이블 헤더 부분 -->
@@ -28,3 +28,4 @@
       </tbody>
     </table>
   </div>
+  </html>
