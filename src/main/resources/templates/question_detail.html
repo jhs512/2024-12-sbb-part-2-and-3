@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
+<!-- css 파일 적용 -->
+<link rel="stylesheet" type="text/css" th:href="@{/style.css}">
 <!-- 질문의 제목을 표시하는 요소 -->
 <!-- th:text : Thymeleaf의 속성으로, 서버에서 전달된 데이터를 HTML 요소의 텍스트로 렌더링 -->
 <!-- ${question.subject} : 서버에서 전달된 객체 "question"의 "subject" 필드를 텍스트로 렌더링 -->
