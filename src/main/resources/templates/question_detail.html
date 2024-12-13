@@ -1,7 +1,28 @@
-<html lang="kr" xmlns:th="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
+<!-- 질문의 제목을 표시하는 요소 -->
+<!-- th:text : Thymeleaf의 속성으로, 서버에서 전달된 데이터를 HTML 요소의 텍스트로 렌더링 -->
+<!-- ${question.subject} : 서버에서 전달된 객체 "question"의 "subject" 필드를 텍스트로 렌더링 -->
 <h1 th:text="${question.subject}"></h1>
+
+<!-- 질문의 내용을 표시하는 요소 -->
+<!-- ${question.content} : 서버에서 전달된 "question" 객체의 "content" 필드를 렌더링 -->
 <div th:text="${question.content}"></div>
+
+<!-- 질문에 달린 답변의 개수를 표시 -->
+<!-- ${#lists.size(question.answerList)} : 서버에서 전달된 "question.answerList"의 크기(답변 개수)를 계산 -->
+<!-- | ... | : 문자열 템플릿으로, 동적인 데이터를 포함한 문장을 생성 -->
+<h5 th:text="|${#lists.size(question.answerList)}개의 답변이 있습니다.|"></h5>
+
+<div>
+  <ul>
+    <!-- 답변 리스트를 반복하여 표시 -->
+    <li th:each="answer : ${question.answerList}" th:text="${answer.content}"></li>
+    <!-- th:each : Thymeleaf 반복문으로, "question.answerList"의 각 항목을 "answer" 변수로 사용 -->
+    <!-- ${answer.content} : 각 답변 객체의 "content" 필드를 텍스트로 렌더링 -->
+  </ul>
+</div>
 
 <!-- HTML <form> 태그 : 사용자가 데이터를 입력하여 서버로 전송할 수 있는 폼 생성 -->
 <!-- th:action : 서버로 데이터를 전송할 URL 경로를 설정 -->
