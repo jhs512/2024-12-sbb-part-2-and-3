@@ -1,0 +1,9 @@
+1. 테스트 환경 분리 - h2
+
+2. AnswerService에서 setQuestion으로 연관관계를 등록하는 방법을 다른 방법으로 고민해보기
+    - setter 주입은 지양하라.
+    - Entity를 범용적으로 가져가지 마라.
+    - 메서드로 가져간다면? 영속성 컨택스트에 있는 엔터티를 빼오는 방법을 사용하여 엔터티를 공개하지 않고 사용?
+        - 이건 또 너무 트랜잭션 의존적. 에러를 만나기 쉬움..
+
+3. question_detail.html createData -> updateDate (수정 기능 추가 시)
