@@ -1,6 +1,7 @@
 package com.mysite.jumptospringboot.question;
 
 import com.mysite.jumptospringboot.answer.Answer;
+import com.mysite.jumptospringboot.user.SiteUser;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,4 +25,7 @@ public class Question {
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE) // 부모가 1, 자식이 n => 연관관계와는 반대. 질문이 지워지면 답변도 삭제한다.
     private List<Answer> answers;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private SiteUser author;
 }

@@ -2,8 +2,11 @@ package com.mysite.jumptospringboot.answer;
 
 import com.mysite.jumptospringboot.question.Question;
 import com.mysite.jumptospringboot.question.QuestionService;
+import com.mysite.jumptospringboot.user.SiteUser;
+import com.mysite.jumptospringboot.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,15 +15,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.Principal;
+
 @RequestMapping("/answer")
 @RequiredArgsConstructor
 @Controller
 public class AnswerController {
     private final QuestionService questionService;
     private final AnswerService answerService;
+    private final UserService userService;
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/create/{id}")
-    public String create(Model model, @PathVariable Integer id, @Valid AnswerForm answerForm, BindingResult bindingResult) {
+    public String createAnswer(Model model, @PathVariable Integer id, @Valid AnswerForm answerForm,
+                               BindingResult bindingResult, Principal principal) { // principal을 넣은것 만으로 객체의 이름을 받을 수 있다.
         Question question = questionService.getQuestion(id);
 
         if(bindingResult.hasErrors()) {
@@ -28,7 +36,8 @@ public class AnswerController {
             return "question_detail";
         }
 
-        answerService.create(question, answerForm.getContent());
+        SiteUser siteUser = userService.getUser(principal.getName());
+        answerService.create(question, answerForm.getContent(), siteUser);
         return String.format("redirect:/question/detail/%s", id);
     }
 }

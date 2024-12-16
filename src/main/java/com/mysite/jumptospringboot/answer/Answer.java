@@ -1,6 +1,7 @@
 package com.mysite.jumptospringboot.answer;
 
 import com.mysite.jumptospringboot.question.Question;
+import com.mysite.jumptospringboot.user.SiteUser;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,4 +21,7 @@ public class Answer {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Question question;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private SiteUser author;
 }
