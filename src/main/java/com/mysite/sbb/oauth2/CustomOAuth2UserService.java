@@ -1,23 +1,16 @@
 package com.mysite.sbb.oauth2;
 
-import com.mysite.sbb.user.OAuthAttributes;
 import com.mysite.sbb.user.SiteUser;
 import com.mysite.sbb.user.UserRepository;
 import com.mysite.sbb.user.UserRole;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -26,12 +19,11 @@ import java.util.Optional;
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(userRequest);
-        log.info("getAttributes : {}", oAuth2User.getAttributes());
+        log.info("getAttributes : {}", oAuth2User.getAttributes()); // 로그 확인용
 
         String provider = userRequest.getClientRegistration().getRegistrationId();
 
