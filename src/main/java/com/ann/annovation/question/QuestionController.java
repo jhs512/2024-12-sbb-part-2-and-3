@@ -1,5 +1,6 @@
 package com.ann.annovation.question;
 
+import com.ann.annovation.answer.AnswerForm;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -34,7 +35,8 @@ public class QuestionController {
         return "question_list";
     }
     @GetMapping(value = "/detail/{id}")
-    public String detail(Model model, @PathVariable("id") Integer id) {
+    public String detail(Model model, @PathVariable("id") Integer id, AnswerForm answerForm) {
+        // AnswerForm 객체를 템플릿에 전달하여 폼 데이터와 연결합니다.
         // QuestionService의 getQuestion 메서드를 호출하여 특정 id에 해당하는 질문 데이터를 가져옴
         Question question = this.questionService.getQuestion(id);
 
