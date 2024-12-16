@@ -2,9 +2,7 @@
 <div layout:fragment="content" class="container">
   <h5 class="my-3 border-bottom pb-2">질문등록</h5>
   <form th:action="@{/question/create}" th:object="${questionForm}" method="post">
-    <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
-      <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
-    </div>
+    <div th:replace="~{form_errors :: formErrorsFragment}"></div>
     <div class="mb-3">
       <label for="subject" class="form-label">제목</label>
       <!--Spring 컨트롤러에서 BindingResult가 QuestionForm 객체의 검증 결과를 담고 있기 때문에, th:field는 기존 데이터를 참조해 입력값을 유지합니다.-->
