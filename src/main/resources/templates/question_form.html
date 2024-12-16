@@ -7,11 +7,12 @@
     </div>
     <div class="mb-3">
       <label for="subject" class="form-label">제목</label>
-      <input type="text" name="subject" id="subject" class="form-control">
+      <!--Spring 컨트롤러에서 BindingResult가 QuestionForm 객체의 검증 결과를 담고 있기 때문에, th:field는 기존 데이터를 참조해 입력값을 유지합니다.-->
+      <input type="text" th:field="*{subject}" class="form-control">
     </div>
     <div class="mb-3">
       <label for="content" class="form-label">내용</label>
-      <textarea name="content" id="content" class="form-control" rows="10"></textarea>
+      <textarea th:field="*{content}" class="form-control" rows="10"></textarea>
     </div>
     <input type="submit" value="저장하기" class="btn btn-primary my-2">
   </form>
