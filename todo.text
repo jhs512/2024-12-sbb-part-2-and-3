@@ -7,3 +7,9 @@
         - 이건 또 너무 트랜잭션 의존적. 에러를 만나기 쉬움..
 
 3. question_detail.html createData -> updateDate (수정 기능 추가 시)
+
+4. Jpa Audit
+
+5. question_list.html의 Page 최적화 필요
+
+6.
