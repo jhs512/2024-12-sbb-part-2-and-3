@@ -13,3 +13,7 @@
 5. question_list.html의 Page 최적화 필요
 
 6. 중복에러는 Service에서 잡고 사용자에게 친화적인 매시지로 변환하여 제공하는 방식이 적합하다.
+
+7. UserSecurityService의 역할이 이름에 의존적이다. 차라리 역할을 DB에 따로 저장해야할듯?
+
+8.
