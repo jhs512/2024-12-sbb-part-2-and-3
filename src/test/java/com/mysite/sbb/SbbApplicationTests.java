@@ -180,9 +180,14 @@ class SbbApplicationTests {
 //		Answer answer = this.answerService.create(question, "테스트 답변", siteUser);
 //		this.commentService.createAtAnswer("테스트 댓글2", answer, siteUser);
 //	}
+//	@Test
+//	void testJpa() {
+//		categoryService.create("질문 게시판");
+//		categoryService.create("자유 게시판");
+//	}
+
 	@Test
 	void testJpa() {
-		categoryService.create("질문 게시판");
-		categoryService.create("자유 게시판");
+		this.userService.delete("tprpek@gmail.com");
 	}
 }
