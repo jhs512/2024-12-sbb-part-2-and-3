@@ -1,5 +1,6 @@
 package com.mysite.jumptospringboot.answer;
 
+import com.mysite.jumptospringboot.DataNotFoundException;
 import com.mysite.jumptospringboot.question.Question;
 import com.mysite.jumptospringboot.user.SiteUser;
 import lombok.RequiredArgsConstructor;
@@ -19,5 +20,13 @@ public class AnswerService {
         answer.setQuestion(question);
         answer.setAuthor(author);
         answerRepository.save(answer);
+    }
+
+    public Answer getAnswer(Integer id) {
+        return answerRepository.findById(id).orElseThrow(()->new DataNotFoundException("answer not found"));
+    }
+
+    public void delete(Answer answer) {
+        answerRepository.delete(answer);
     }
 }

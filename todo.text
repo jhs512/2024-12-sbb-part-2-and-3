@@ -17,3 +17,5 @@
 7. UserSecurityService의 역할이 이름에 의존적이다. 차라리 역할을 DB에 따로 저장해야할듯?
 
 8. 조회 조인할 때 Fetch로 설정하기(Entity Graph)
+
+9. createDate, modifyDate를 Audit를 이용하여 만들기

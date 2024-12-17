@@ -23,6 +23,8 @@ public class Question {
 
     private LocalDateTime createDate;
 
+    private LocalDateTime modifyDate;
+
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE) // 부모가 1, 자식이 n => 연관관계와는 반대. 질문이 지워지면 답변도 삭제한다.
     private List<Answer> answers;
 
