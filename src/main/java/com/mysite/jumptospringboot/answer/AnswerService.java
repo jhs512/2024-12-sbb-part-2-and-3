@@ -13,13 +13,13 @@ import java.time.LocalDateTime;
 public class AnswerService {
     private final AnswerRepository answerRepository;
 
-    public void create(Question question, String content, SiteUser author) { // Question이라는 Entity에 의존적일 필요가 있나? -> JPA를 이용하므로 엔터티에 의존. (연관관계를 엔터티로 하잖아)
+    public Answer create(Question question, String content, SiteUser author) { // Question이라는 Entity에 의존적일 필요가 있나? -> JPA를 이용하므로 엔터티에 의존. (연관관계를 엔터티로 하잖아)
         Answer answer = new Answer();
         answer.setContent(content);
         answer.setCreateDate(LocalDateTime.now());
         answer.setQuestion(question);
         answer.setAuthor(author);
-        answerRepository.save(answer);
+        return answerRepository.save(answer);
     }
 
     public Answer getAnswer(Integer id) {
