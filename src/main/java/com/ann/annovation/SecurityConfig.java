@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration // 이 파일이 스프링의 환경 설정 파일임을 의미하는 어노테이션
@@ -15,8 +16,13 @@ public class SecurityConfig {
         // 로그인하지 않더라도 모든 페이지에 접근할 수 있도록 인증되지 않은 모든 페이지의 요청을 허락
         http
             .authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
-              .requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
-        ;
+                .requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
+            // h2-console/로 시작하는 모든 URL은 CSRF 검증을 하지 않는다는 설정을 추가
+            .csrf((csrf) -> csrf
+                .ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**")))
+            .headers((headers) -> headers
+                .addHeaderWriter(new XFrameOptionsHeaderWriter(
+                    XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)));
         return http.build();
     }
 }

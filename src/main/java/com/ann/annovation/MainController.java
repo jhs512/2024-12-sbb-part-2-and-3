@@ -17,11 +17,8 @@ public class MainController {
     // URL: http://localhost:8080/
     @GetMapping("/")
     // @ResponseBody : return 값을 브라우저로 보여준다.
-    @ResponseBody
-    public int home() {
-        // 요청이 처리되면, 서버 콘솔에 "home"이라는 메시지를 출력합니다.
-        System.out.println("home");
-        return 22;
+    public String root() {
+        return "redirect:/question/list";
     }
 
     // GET 요청으로 "/about" 경로에 접근했을 때 실행됩니다.
