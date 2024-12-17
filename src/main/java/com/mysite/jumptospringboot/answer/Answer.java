@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Getter @Setter
@@ -26,4 +27,7 @@ public class Answer {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private SiteUser author;
+
+    @ManyToMany
+    Set<SiteUser> voter;
 }

@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter @Setter // 일반적으로는 엔터티에는 Setter를 사용하지 않는다. 다른 방식으로 안전하게 주입한다. (간단한 예제)
@@ -30,4 +31,7 @@ public class Question {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private SiteUser author;
+
+    @ManyToMany
+    Set<SiteUser> voter;
 }

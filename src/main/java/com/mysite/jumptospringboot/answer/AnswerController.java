@@ -50,4 +50,14 @@ public class AnswerController {
         answerService.delete(answer);
         return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
     }
+
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/vote/{id}")
+    public String answerVote(Principal principal, @PathVariable Integer id) {
+        Answer answer = answerService.getAnswer(id);
+        SiteUser siteUser = userService.getUser(principal.getName());
+
+        answerService.vote(answer,siteUser);
+        return String.format("redirect:/question/detail/%s", answer.getQuestion().getId());
+    }
 }

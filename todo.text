@@ -19,3 +19,5 @@
 8. 조회 조인할 때 Fetch로 설정하기(Entity Graph)
 
 9. createDate, modifyDate를 Audit를 이용하여 만들기
+
+10. 추천을 누른 게시물은 자바스크립트로 표시해주기
