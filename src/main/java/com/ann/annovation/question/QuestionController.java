@@ -3,15 +3,11 @@ package com.ann.annovation.question;
 import com.ann.annovation.answer.AnswerForm;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/question")
 @RequiredArgsConstructor
@@ -21,14 +17,12 @@ public class QuestionController {
     private final QuestionService questionService;
 
     @GetMapping("/list")
-    public  String list(Model model) {
-
-        // QuestionService의 getList 메서드를 호출하여 모든 Question 객체를 가져옴
-        List<Question> questionList = this.questionService.getList();
-
-        // 가져온 questionList를 Model 객체에 추가하여 뷰에서 사용할 수 있도록 전달
-        // 뷰(View) : 사용자가 브라우저에서 보는 모든 것(버튼, 텍스트, 이미지 등)
-        model.addAttribute("questionList", questionList);
+    public  String list(
+            Model model,
+            @RequestParam(value="page", defaultValue="0") int page
+    ) {
+        Page<Question> paging = this.questionService.getList(page);
+        model.addAttribute("paging", paging);
 
         // 반환 값으로 "question_list"라는 이름의 뷰를 렌더링하도록 지시
         // 렌더링(Rendering)은 데이터를 사용자가 볼 수 있는 화면으로 변환하는 과정
