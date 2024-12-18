@@ -31,7 +31,11 @@ public class SecurityConfig {
             // .formLogin : Spring Security 로그인 설정 Method
             .formLogin((formLogin) -> formLogin
                 .loginPage("/user/login") // 로그인 페이지의 URL
-                .defaultSuccessUrl("/")); // 로그인 성공 시에 이동할 페이지 URL
+                .defaultSuccessUrl("/")) // 로그인 성공 시에 이동할 페이지 URL
+             .logout((logout) -> logout
+                 .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout")) // 로그아웃 URL
+                 .logoutSuccessUrl("/") // 로그아웃 성공 시 이동할 페이지 URL
+                 .invalidateHttpSession(true)); // 로그아웃 시 생성된 사용자 세션 삭제
 
         return http.build();
     }
