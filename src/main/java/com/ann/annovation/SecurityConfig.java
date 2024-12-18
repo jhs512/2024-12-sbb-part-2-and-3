@@ -24,7 +24,12 @@ public class SecurityConfig {
                 .ignoringRequestMatchers(new AntPathRequestMatcher("/h2-console/**")))
             .headers((headers) -> headers
                 .addHeaderWriter(new XFrameOptionsHeaderWriter(
-                    XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)));
+                    XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
+            // 로그인 URL 설정
+            // .formLogin : Spring Security 로그인 설정 Method
+            .formLogin((formLogin) -> formLogin
+                .loginPage("/user/login") // 로그인 페이지의 URL
+                .defaultSuccessUrl("/")); // 로그인 성공 시에 이동할 페이지 URL
 
         return http.build();
     }
