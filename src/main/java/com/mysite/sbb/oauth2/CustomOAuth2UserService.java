@@ -37,7 +37,6 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         String providerId = oAuth2UserInfo.getProviderId();
         String email = oAuth2UserInfo.getEmail();
         String loginId = provider + "_" + providerId;
-        String username = oAuth2UserInfo.getUsername();
 
         Optional<SiteUser> os = userRepository.findByEmail(email);
         SiteUser siteUser;

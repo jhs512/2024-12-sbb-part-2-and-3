@@ -34,7 +34,6 @@ public class QuestionController {
     private final CategoryService categoryService;
     public static final String FREE_BOARD = "자유 게시판";
     public static final String QUESTION_BOARD = "질문 게시판";
-
     private static final String QUESTION_NAME = "질문";
     private static final String FREE_NAME = "자유";
     @GetMapping("/list")
@@ -55,6 +54,7 @@ public class QuestionController {
         model.addAttribute("kw", kw);
         model.addAttribute("category", FREE_NAME);
         return "question_list";
+
     }
 
     @GetMapping(value = "/detail/{id}")
@@ -88,8 +88,7 @@ public class QuestionController {
         Category category = this.categoryService.getByName(questionForm.getCategory());
         this.questionService.create(questionForm.getSubject(), questionForm.getContent(), siteUser, category);
         // 게시판 종류에 따라 리다이렉트
-        System.out.println("카테고리명" + questionForm.getCategory());
-        if ("자유 게시판".equals(questionForm.getCategory())) {
+        if (FREE_BOARD.equals(questionForm.getCategory())) {
             return "redirect:/question/free/list";
         }
         return "redirect:/question/list";
@@ -131,7 +130,7 @@ public class QuestionController {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
         }
         this.questionService.delete(question);
-        if ("자유 게시판".equals(question.getCategory().getName())) {
+        if (FREE_BOARD.equals(question.getCategory().getName())) {
             return "redirect:/question/free/list";
         }
         return "redirect:/question/list";

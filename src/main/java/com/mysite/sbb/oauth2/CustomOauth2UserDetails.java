@@ -29,12 +29,7 @@ public class CustomOauth2UserDetails implements UserDetails, OAuth2User {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> collection = new ArrayList<>();
-        collection.add(new GrantedAuthority() {
-            @Override
-            public String getAuthority() {
-                return siteUser.getRole().name();
-            }
-        });
+        collection.add((GrantedAuthority) () -> siteUser.getRole().name());
 
         return collection;
     }
