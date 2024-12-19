@@ -1,8 +1,10 @@
 package com.ann.annovation.answer;
 
 import com.ann.annovation.question.Question;
+import com.ann.annovation.user.SiteUser;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
@@ -21,4 +23,7 @@ public class Answer {
 
     @ManyToOne
     private Question question;
+
+    @ManyToOne
+    private SiteUser author;
 }
