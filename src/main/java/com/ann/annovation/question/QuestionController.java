@@ -6,6 +6,7 @@ import com.ann.annovation.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -45,10 +46,14 @@ public class QuestionController {
         model.addAttribute("question", question);
         return "question_detail";
     }
+    // @PreAuthorize("isAuthenticated()") : 메서드를 로그인한 경우에만 실행,  로그아웃 상태에서 호출되면 로그인 페이지로 강제 이동
+    // principal 객체가 로그인을 해야만 생성되는 객체, 로그아웃 상태에서는 객체 값이 없어 오류를 발생시킴
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
     public String questionCreate(QuestionForm questionForm) {
         return "question_form";
     }
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
     public String questionCreate(
             @Valid QuestionForm questionForm,
