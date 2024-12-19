@@ -1,6 +1,8 @@
 package com.ann.annovation.question;
 
 import com.ann.annovation.answer.AnswerForm;
+import com.ann.annovation.user.SiteUser;
+import com.ann.annovation.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -9,12 +11,15 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @RequestMapping("/question")
 @RequiredArgsConstructor
 @Controller
 public class QuestionController {
 
     private final QuestionService questionService;
+    private final UserService userService;
 
     @GetMapping("/list")
     public  String list(
@@ -45,11 +50,16 @@ public class QuestionController {
         return "question_form";
     }
     @PostMapping("/create")
-    public String questionCreate(@Valid QuestionForm questionForm, BindingResult bindingResult) {
+    public String questionCreate(
+            @Valid QuestionForm questionForm,
+            BindingResult bindingResult,
+            Principal principal
+    ) {
         if (bindingResult.hasErrors()) {
             return "question_form";
         }
-        this.questionService.create(questionForm.getSubject(), questionForm.getContent());
+        SiteUser siteUser = this.userService.getUser(principal.getName());
+        this.questionService.create(questionForm.getSubject(), questionForm.getContent(), siteUser);
         return "redirect:/question/list"; // 질문 저장후 질문목록으로 이동
     }
 }
