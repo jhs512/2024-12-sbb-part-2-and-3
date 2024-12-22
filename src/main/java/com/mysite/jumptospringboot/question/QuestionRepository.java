@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
-public interface QuestionRepository extends JpaRepository<Question, Integer> {
+public interface QuestionRepository extends JpaRepository<Question, Integer>, QuestionRepositoryCustom {
     Question findBySubject(String subject);
     Optional<Question> findBySubjectAndContent(String subject, String content);
     List<Question> findBySubjectLike(String subject); // JPA에 더 가까운 방법은 containing
@@ -28,5 +28,13 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
             + "   or u1.username like %:kw% "
             + "   or a.content like %:kw% "
             + "   or u2.username like %:kw% ")
-    Page<Question> findAllByKeyword(@Param("kw") String kw, Pageable pageable);
+    Page<Question> findAllByKeywordJPQL(@Param("kw") String kw, Pageable pageable);
 }
+
+/*
+* question에 siteUser
+* a1.question)id, id, author_id content , create
+* answer을 계속 찾음 where question_id=?으로
+* 아마 left outer join Answer a on a.question=q 이부분인 것 같은데
+* q에 따라서 하나씩 실행됨
+ * */

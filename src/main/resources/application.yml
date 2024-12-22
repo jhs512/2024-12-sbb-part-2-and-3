@@ -6,7 +6,13 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
+        use_sql_comments: true
+
   datasource:
     url: jdbc:mysql://localhost:3307/sbb
     username: root
     password: q1w2e3r4 # git ignore
+
+logging:
+  level:
+    org.hibernate.orm.jdbc.bind: trace

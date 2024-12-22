@@ -52,7 +52,8 @@ public class QuestionService {
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("createDate"));
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
-        return questionRepository.findAllByKeyword(kw, pageable);
+        return questionRepository.findAllByKeywordQDSL(kw, pageable);
+//        return questionRepository.findAllByKeywordJPQL(kw, pageable);
     }
 
     public void delete(Question question) {
