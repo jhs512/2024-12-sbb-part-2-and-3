@@ -52,8 +52,8 @@
     <!-- 답변의 갯수 표시 -->
     <h5 class="border-bottom my-3 py-2"
         th:text="|${#lists.size(question.answerList)}개의 답변이 있습니다.|"></h5>
-    <!-- 답변 반복 시작 -->
-    <div class="card my-3" th:each="answer : ${question.answerList}">
+    <!-- 답변 반복 시작, 답변 페이징 시작 -->
+    <div class="card my-3" th:each="answer, loop : ${ans_paging}">
         <!--앵커 태그의 id 속성이 유일하지 않고 중복된 값이 존재한다면 맨 처음 한 개를 제외한 나머지 앵커는 제대로 동작하지 않는다.-->
         <a th:id="|answer_${answer.id}|"></a>
         <div class="card-body">
@@ -94,6 +94,29 @@
         </div>
     </div>
     <!-- 답변 반복 끝  -->
+
+    <!-- 답변 페이징 처리 시작 -->
+    <div th:if="${!ans_paging.isEmpty()}">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${!ans_paging.hasPrevious} ? 'disabled'">
+                <a class="page-link" th:href="@{|?ans-page=${ans_paging.number-1}|}" th:data-page="${ans_paging.number-1}">
+                    <span>이전</span>
+                </a>
+            </li>
+            <li th:each="page: ${#numbers.sequence(0, ans_paging.totalPages-1)}"
+                th:if="${page >= ans_paging.number - 5 and page <= ans_paging.number+5}"
+                th:classappend="${page == ans_paging.number} ? 'active'"
+                class="page-item">
+                <a th:text="${page}" class="page-link" th:href="@{|?ans-page=${page}|}" th:data-page="${page}"></a>
+            </li>
+            <li class="page-item" th:classappend="${!ans_paging.hasNext()} ? 'disabled'">
+                <a class="page-link" th:href="@{|?ans-page=${ans_paging.number+1}|}" th:data-page="${ans_paging.number+1}">
+                    <span>다음</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+
     <!-- 답변 작성 -->
     <form th:action="@{|/answer/create/${question.id}|}" th:object="${answerForm}" method="post" class="my-3">
         <div th:replace="~{form_errors :: formErrorsFragment}"></div>
