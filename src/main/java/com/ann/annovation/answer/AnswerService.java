@@ -4,9 +4,15 @@ import com.ann.annovation.DataNotFoundException;
 import com.ann.annovation.question.Question;
 import com.ann.annovation.user.SiteUser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -48,5 +54,13 @@ public class AnswerService {
     public void vote(Answer answer, SiteUser siteUser) {
         answer.getVoter().add(siteUser);
         this.answerRepository.save(answer);
+    }
+
+    // Question이 주어지면 Question에 달린 Answer를 리턴하는 메서드
+    public Page<Answer> getAnswerList(Question question, int page) {
+        List<Sort.Order> sorts = new ArrayList<>();
+        sorts.add(Sort.Order.desc("createDate"));
+        Pageable pageable = PageRequest.of(page, 5, Sort.by(sorts));
+        return this.answerRepository.findByQuestion(question, pageable);
     }
 }

@@ -1,6 +1,8 @@
 package com.ann.annovation.question;
 
+import com.ann.annovation.answer.Answer;
 import com.ann.annovation.answer.AnswerForm;
+import com.ann.annovation.answer.AnswerService;
 import com.ann.annovation.user.SiteUser;
 import com.ann.annovation.user.UserService;
 import jakarta.validation.Valid;
@@ -23,6 +25,7 @@ public class QuestionController {
 
     private final QuestionService questionService;
     private final UserService userService;
+    private final AnswerService answerService;
 
     @GetMapping("/list")
     public  String list(
@@ -40,15 +43,22 @@ public class QuestionController {
         return "question_list";
     }
     @GetMapping(value = "/detail/{id}")
-    public String detail(Model model, @PathVariable("id") Integer id, AnswerForm answerForm) {
+    public String detail(
+            Model model,
+            @PathVariable("id") Integer id,
+            AnswerForm answerForm,
+            @RequestParam(value="ans-page", defaultValue="0") int answerPage) {
         // AnswerForm 객체를 템플릿에 전달하여 폼 데이터와 연결합니다.
         // QuestionService의 getQuestion 메서드를 호출하여 특정 id에 해당하는 질문 데이터를 가져옴
         Question question = this.questionService.getQuestion(id);
-
+        // answerPaging : 특정 question에 달린 answer들을 paging
+        Page<Answer> answerPaging = this.answerService.getAnswerList(question, answerPage);
         // 가져온 질문 데이터를 모델(Model)에 추가
         // "question"이라는 이름으로 뷰에 전달하여 화면에서 사용 가능
         // model.addAttribute("key", value)를 통해 데이터를 추가하며, 뷰에서는 key 이름으로 접근합니다.
         model.addAttribute("question", question);
+
+        model.addAttribute("ans_paging", answerPaging);
         return "question_detail";
     }
     // @PreAuthorize("isAuthenticated()") : 메서드를 로그인한 경우에만 실행,  로그아웃 상태에서 호출되면 로그인 페이지로 강제 이동
