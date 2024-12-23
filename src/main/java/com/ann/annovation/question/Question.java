@@ -1,6 +1,7 @@
 package com.ann.annovation.question;
 
 import com.ann.annovation.answer.Answer;
+import com.ann.annovation.comment.Comment;
 import com.ann.annovation.user.SiteUser;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -36,5 +37,8 @@ public class Question {
 
     @ManyToMany
     Set<SiteUser> voter;
+
+    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
+    private List<Comment> commentList;
 
 }
