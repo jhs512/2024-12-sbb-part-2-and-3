@@ -1,6 +1,8 @@
 package com.mysite.jumptospringboot.question;
 
+import com.mysite.jumptospringboot.answer.Answer;
 import com.mysite.jumptospringboot.answer.AnswerForm;
+import com.mysite.jumptospringboot.answer.AnswerService;
 import com.mysite.jumptospringboot.user.SiteUser;
 import com.mysite.jumptospringboot.user.UserService;
 import jakarta.validation.Valid;
@@ -24,6 +26,7 @@ public class QuestionController {
 
     private final QuestionService questionService;
     private final UserService userService;
+    private final AnswerService answerService;
 
     @GetMapping("/list")
     public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
@@ -35,9 +38,14 @@ public class QuestionController {
     }
 
     @GetMapping("/detail/{id}")
-    public String detail(Model model, @PathVariable Integer id, AnswerForm answerForm) {
+    public String detail(Model model, @PathVariable Integer id, @RequestParam(value = "page", defaultValue = "0") int page,
+                        @RequestParam(value = "sort", defaultValue = "searchForm") String sortState,
+                        AnswerForm answerForm) {
         Question question = questionService.getQuestion(id);
+        Page<Answer> paging = answerService.getList(question, sortState, page);
         model.addAttribute("question",question);
+        model.addAttribute("paging", paging);
+        model.addAttribute("sort", sortState);
         return "question_detail";
     }
 

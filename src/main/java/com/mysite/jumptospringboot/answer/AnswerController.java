@@ -6,6 +6,7 @@ import com.mysite.jumptospringboot.user.SiteUser;
 import com.mysite.jumptospringboot.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 
@@ -31,13 +33,18 @@ public class AnswerController {
         Question question = questionService.getQuestion(id);
         SiteUser siteUser = userService.getUser(principal.getName());
 
+
+
         if(bindingResult.hasErrors()) {
-            model.addAttribute("question", question); // question_detail은 question객체를 필요로 한다. ${question.subject}
+            Page<Answer> paging = answerService.getList(question, "createDate", answerForm.getPage());
+            model.addAttribute("question", question);
+            model.addAttribute("paging", paging);
             return "question_detail";
         }
 
+
         Answer answer = answerService.create(question, answerForm.getContent(), siteUser);
-        return String.format("redirect:/question/detail/%s#answer_%s", answer.getQuestion().getId(), answer.getId());
+        return String.format("redirect:/question/detail/%s#answer_%s", question.getId(), answer.getId());
     }
 
     @PreAuthorize("isAuthenticated()")

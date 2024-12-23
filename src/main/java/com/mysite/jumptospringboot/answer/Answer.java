@@ -29,5 +29,11 @@ public class Answer {
     private SiteUser author;
 
     @ManyToMany
-    Set<SiteUser> voter;
+    private Set<SiteUser> voter;
+
+    private Long voterCount;
+
+    public void countVoter() {
+        voterCount=(long)voter.size();
+    }
 }

@@ -4,9 +4,15 @@ import com.mysite.jumptospringboot.DataNotFoundException;
 import com.mysite.jumptospringboot.question.Question;
 import com.mysite.jumptospringboot.user.SiteUser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -32,6 +38,19 @@ public class AnswerService {
 
     public void vote(Answer answer, SiteUser siteUser) {
         answer.getVoter().add(siteUser);
+        answer.countVoter();
         answerRepository.save(answer);
+    }
+
+    public Page<Answer> getList(Question question, String sortState, int page) {
+        List<Sort.Order> sorts = new ArrayList<>();
+        if(sortState.equals("createDate")) {
+            sorts.add(Sort.Order.desc("createDate"));
+        }
+        else if(sortState.equals("voteCount")) {
+            sorts.add(Sort.Order.desc("voterCount"));
+        }
+        Pageable pageable = PageRequest.of(page, 5, Sort.by(sorts));
+        return answerRepository.findByQuestion(question, pageable);
     }
 }
