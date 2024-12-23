@@ -57,9 +57,14 @@ public class AnswerService {
     }
 
     // Question이 주어지면 Question에 달린 Answer를 리턴하는 메서드
-    public Page<Answer> getAnswerList(Question question, int page) {
+    public Page<Answer> getAnswerList(Question question, int page, String answerOrderMethod) {
         List<Sort.Order> sorts = new ArrayList<>();
-        sorts.add(Sort.Order.desc("createDate"));
+        if (answerOrderMethod.startsWith("recommend")) {
+            sorts.add(Sort.Order.desc("voter"));
+        }
+        else {
+            sorts.add(Sort.Order.desc("createDate"));
+        }
         Pageable pageable = PageRequest.of(page, 5, Sort.by(sorts));
         return this.answerRepository.findByQuestion(question, pageable);
     }

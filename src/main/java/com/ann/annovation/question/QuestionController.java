@@ -47,12 +47,16 @@ public class QuestionController {
             Model model,
             @PathVariable("id") Integer id,
             AnswerForm answerForm,
-            @RequestParam(value="ans-page", defaultValue="0") int answerPage) {
+            @RequestParam(value="ans-page", defaultValue="0") int answerPage,
+            @RequestParam(value="ans-ordering", defaultValue="time") String answerOrderMethod) {
+
         // AnswerForm 객체를 템플릿에 전달하여 폼 데이터와 연결합니다.
         // QuestionService의 getQuestion 메서드를 호출하여 특정 id에 해당하는 질문 데이터를 가져옴
         Question question = this.questionService.getQuestion(id);
+
         // answerPaging : 특정 question에 달린 answer들을 paging
-        Page<Answer> answerPaging = this.answerService.getAnswerList(question, answerPage);
+        Page<Answer> answerPaging = this.answerService.getAnswerList(question, answerPage, answerOrderMethod);
+
         // 가져온 질문 데이터를 모델(Model)에 추가
         // "question"이라는 이름으로 뷰에 전달하여 화면에서 사용 가능
         // model.addAttribute("key", value)를 통해 데이터를 추가하며, 뷰에서는 key 이름으로 접근합니다.
@@ -61,6 +65,7 @@ public class QuestionController {
         model.addAttribute("ans_paging", answerPaging);
         return "question_detail";
     }
+
     // @PreAuthorize("isAuthenticated()") : 메서드를 로그인한 경우에만 실행,  로그아웃 상태에서 호출되면 로그인 페이지로 강제 이동
     // principal 객체가 로그인을 해야만 생성되는 객체, 로그아웃 상태에서는 객체 값이 없어 오류를 발생시킴
     @PreAuthorize("isAuthenticated()")
@@ -68,6 +73,7 @@ public class QuestionController {
     public String questionCreate(QuestionForm questionForm) {
         return "question_form";
     }
+
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create")
     public String questionCreate(
