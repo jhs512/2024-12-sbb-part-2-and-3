@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.ll.sbb.answer.Answer;
+import com.ll.sbb.user.SiteUser;
 import jakarta.persistence.*;
 
 import lombok.Getter;
@@ -24,7 +25,13 @@ public class Question {
     private String content;
 
     private LocalDateTime createDate;
+    private LocalDateTime modifyDate;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
     private List<Answer> answerList;
+
+    @ManyToOne
+    private SiteUser author;
+
+
 }
