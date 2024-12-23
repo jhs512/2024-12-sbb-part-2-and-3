@@ -41,11 +41,13 @@ public class QuestionService {
         };
     }
 
-    public Page<Question> getList(int page) {
+    public Page<Question> getList(int page, String kw) {
         List<Sort.Order> sorts = new ArrayList<>();
         sorts.add(Sort.Order.desc("createDate"));
         Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
-        return this.questionRepository.findAll(pageable);
+        // 검색어를 의미하는 매개변수 kw를 getList 메서드에 추가하고 kw값으로 Specification 객체를 생성하여 findAll 메서드 호출 시 전달했다.
+        Specification<Question> spec = search(kw);
+        return this.questionRepository.findAll(spec, pageable);
     }
 
     public Question getQuestion(Integer id) {

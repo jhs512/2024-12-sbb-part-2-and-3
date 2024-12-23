@@ -27,10 +27,13 @@ public class QuestionController {
     @GetMapping("/list")
     public  String list(
             Model model,
-            @RequestParam(value="page", defaultValue="0") int page
+            @RequestParam(value="page", defaultValue="0") int page,
+            @RequestParam(value = "kw", defaultValue = "") String kw
     ) {
-        Page<Question> paging = this.questionService.getList(page);
+        Page<Question> paging = this.questionService.getList(page, kw);
         model.addAttribute("paging", paging);
+        // 화면에서 입력한 검색어를 화면에 그대로 유지하기 위해 kw 값 저장
+        model.addAttribute("kw", kw);
 
         // 반환 값으로 "question_list"라는 이름의 뷰를 렌더링하도록 지시
         // 렌더링(Rendering)은 데이터를 사용자가 볼 수 있는 화면으로 변환하는 과정
