@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 @Entity
 public class Answer {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id // PRIMARY KEY
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // AUTO_INCREMENT
     private Integer id;
 
     @Column(columnDefinition = "TEXT")
