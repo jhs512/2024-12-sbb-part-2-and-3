@@ -1,0 +1,21 @@
+2024-12-24 12:44:27.768003+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]QUESTION"; SQL statement:
+QUESTION [42000-232]
+2024-12-24 12:44:29.206696+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]QUESTION"; SQL statement:
+QUESTION [42000-232]
+2024-12-24 12:44:30.581241+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]QUESTION"; SQL statement:
+QUESTION [42000-232]
+2024-12-24 12:44:30.984659+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]QUESTION"; SQL statement:
+QUESTION [42000-232]
+2024-12-24 12:44:32.051975+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]QUESTION"; SQL statement:
+QUESTION [42000-232]
+2024-12-24 12:44:32.206470+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]QUESTION"; SQL statement:
+QUESTION [42000-232]
+2024-12-24 12:44:32.350914+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]QUESTION"; SQL statement:
+QUESTION [42000-232]
