@@ -27,34 +27,76 @@
                 </div>
             </div>
 
-            <div class="my-3">
-                <!--질문 추천 버튼-->
-                <!--lists.size 메서드에 question.voter를 사용하여 추천 수도 함께 보이도록 했다.-->
-                <!--class 속성에 recommend를 적용해 자바스크립트로 data-uri에 정의된 URL이 호출됨.
-                따라서 [삭제] 버튼과 마찬가지로 [추천] 버튼을 눌렀을 때 메시지가 적힌 팝업 창을 통해 추천되도록 함.-->
-                <a href="javascript:void(0);" class="recommend btn btn-sm btn-outline-secondary"
-                   th:data-uri="@{|/question/vote/${question.id}|}">
-                    추천
-                    <span class="badge rounded-pill bg-success" th:text="${#lists.size(question.voter)}"></span>
+            <!--Bootstrap을 활용하여 버튼을 수평으로 배치, 양쪽 끝으로 정렬-->
+            <div class="my-3 d-flex justify-content-between">
+
+                <!-- Question 왼쪽 버튼 -->
+                <div>
+                    <!--질문 추천 버튼-->
+                    <!--lists.size 메서드에 question.voter를 사용하여 추천 수도 함께 보이도록 했다.-->
+                    <!--class 속성에 recommend를 적용해 자바스크립트로 data-uri에 정의된 URL이 호출됨.
+                    따라서 [삭제] 버튼과 마찬가지로 [추천] 버튼을 눌렀을 때 메시지가 적힌 팝업 창을 통해 추천되도록 함.-->
+                    <a href="javascript:void(0);" class="recommend btn btn-sm btn-outline-secondary"
+                       th:data-uri="@{|/question/vote/${question.id}|}">
+                        추천
+                        <span class="badge rounded-pill bg-success" th:text="${#lists.size(question.voter)}"></span>
+                    </a>
+
+                    <!--질문 수정 버튼-->
+                    <!--#authentication.getPrincipal() : 타임리프에서 스프링 시큐리티와 함께 사용하는 표현식으로, 이를 통해 현재 사용자가 인증되었다면 사용자 이름(사용자 ID)을 알 수 있다.-->
+                    <!--#authentication.getPrincipal().getUsername() == question.author.username : 로그인한 사용자 == 글쓴이 (다를 경우 수정 버튼 안보임)-->
+                    <a th:href="@{|/question/modify/${question.id}|}" class="btn btn-sm btn-outline-secondary"
+                       sec:authorize="isAuthenticated()"
+                       th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}"
+                       th:text="수정"></a>
+
+                    <!--href="javascript:void(0);" : 기본 링크 기능을 비활성화, JavaScript로 특정 동작을 처리-->
+                    <!--data-uri 속성에 설정한 값은 클릭 이벤트 발생 시 별도의 자바스크립트 코드에서 this.dataset.uri를 사용하여 그 값을 얻어 실행할 수 있다.-->
+                    <a href="javascript:void(0);" th:data-uri="@{|/question/delete/${question.id}|}"
+                       class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
+                       th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}"
+                       th:text="삭제"></a>
+                </div>
+
+                <!-- Question 오른쪽 버튼 -->
+                <a href="javascript:void(0);" class="comment btn btn-sm btn-outline-secondary"
+                   th:id="|question-${question.id}|" th:text="|댓글 ${#lists.size(question.getCommentList())}">
                 </a>
-
-                <!--질문 수정 버튼-->
-                <!--#authentication.getPrincipal() : 타임리프에서 스프링 시큐리티와 함께 사용하는 표현식으로, 이를 통해 현재 사용자가 인증되었다면 사용자 이름(사용자 ID)을 알 수 있다.-->
-                <!--#authentication.getPrincipal().getUsername() == question.author.username : 로그인한 사용자 == 글쓴이 (다를 경우 수정 버튼 안보임)-->
-                <a th:href="@{|/question/modify/${question.id}|}" class="btn btn-sm btn-outline-secondary"
-                   sec:authorize="isAuthenticated()"
-                   th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}"
-                   th:text="수정"></a>
-
-                <!--href="javascript:void(0);" : 기본 링크 기능을 비활성화, JavaScript로 특정 동작을 처리-->
-                <!--data-uri 속성에 설정한 값은 클릭 이벤트 발생 시 별도의 자바스크립트 코드에서 this.dataset.uri를 사용하여 그 값을 얻어 실행할 수 있다.-->
-                <a href="javascript:void(0);" th:data-uri="@{|/question/delete/${question.id}|}"
-                   class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
-                   th:if="${question.author != null and #authentication.getPrincipal().getUsername() == question.author.username}"
-                   th:text="삭제"></a>
             </div>
+
+            <!--댓글 Table-->
+            <table class="table" th:if="${#lists.size(question.commentList)!=0}" style="display: none"
+                   th:id="|comment-question-${question.id}|">
+                <thead class="table-dark">
+                <tr class="text-center">
+                    <th style="width:70%">내용</th>
+                    <th>글쓴이</th>
+                    <th>작성일시</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="text-center" th:each="question_comment, loop : ${comment_list}"
+                    th:if="${question_comment.getAnswer() == null}">
+                    <td class="text-center" th:text="${question_comment.getContent()}"></td>
+                    <td><span th:if="${question_comment.author != null}" th:text="${question_comment.author.username}"</td>
+                    <td th:text="${#temporals.format(question_comment.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
+
+    <!-- 답변 작성 -->
+    <form th:action="@{|/answer/create/${question.id}|}" th:object="${answerForm}" method="post" class="my-3">
+        <div th:replace="~{form_errors :: formErrorsFragment}"></div>
+        <!--disabled : Anonymous일 경우 textarea를 볼 수는 있지만, 내용을 입력하거나 수정할 수 없도록 설정-->
+        <!--sec:authorize="isAnonymous() : 로그아웃 상태-->
+        <textarea sec:authorize="isAnonymous()" disabled th:field="*{content}" class="form-control"
+                  rows="10"></textarea>
+        <!--sec:authorize="isAuthenticated() : 로그인 상태-->
+        <textarea sec:authorize="isAuthenticated()" th:field="*{content}" class="form-control" rows="10"></textarea>
+        <input type="submit" value="답변등록" class="btn btn-primary my-2">
+    </form>
 
     <!-- 답변의 갯수 표시 -->
     <h5 class="border-bottom my-3 py-2"
@@ -93,28 +135,56 @@
                     <div th:text="${#temporals.format(answer.createDate, 'yyyy-MM-dd HH:mm')}"></div>
                 </div>
             </div>
-            <div class="my-3">
 
-                <!--답변 추천 버튼 추가-->
-                <a href="javascript:void(0);" class="recommend btn btn-sm btn-outline-secondary"
-                   th:data-uri="@{|/answer/vote/${answer.id}|}">
-                    추천
-                    <span class="badge rounded-pill bg-success" th:text="${#lists.size(answer.voter)}"></span>
+            <!--Bootstrap을 활용하여 버튼을 수평으로 배치, 양쪽 끝으로 정렬-->
+            <div class="my-3 d-flex justify-content-between">
+
+                <!--Answer 왼쪽 버튼-->
+                <div>
+                    <!--답변 추천 버튼 추가-->
+                    <a href="javascript:void(0);" class="recommend btn btn-sm btn-outline-secondary"
+                       th:data-uri="@{|/answer/vote/${answer.id}|}">
+                        추천
+                        <span class="badge rounded-pill bg-success" th:text="${#lists.size(answer.voter)}"></span>
+                    </a>
+
+                    <!--답변 수정 버튼 추가-->
+                    <a th:href="@{|/answer/modify/${answer.id}|}" class="btn btn-sm btn-outline-secondary"
+                       sec:authorize="isAuthenticated()"
+                       th:if="${answer.author != null and #authentication.getPrincipal().getUsername() == answer.author.username}"
+                       th:text="수정"></a>
+
+                    <!--답변 삭제 버튼 추가 -->
+                    <a href="javascript:void(0);" th:data-uri="@{|/answer/delete/${answer.id}|}"
+                       class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
+                       th:if="${answer.author != null and #authentication.getPrincipal().getUsername() == answer.author.username}"
+                       th:text="삭제"></a>
+                </div>
+                <!-- 오른쪽 버튼 -->
+                <a href="javascript:void(0);" class="comment btn btn-sm btn-outline-secondary"
+                   th:id="|ans-${answer.id}|" th:text="|댓글 ${#lists.size(answer.getCommentList())}|">
                 </a>
-
-                <!--답변 수정 버튼 추가-->
-                <a th:href="@{|/answer/modify/${answer.id}|}" class="btn btn-sm btn-outline-secondary"
-                   sec:authorize="isAuthenticated()"
-                   th:if="${answer.author != null and #authentication.getPrincipal().getUsername() == answer.author.username}"
-                   th:text="수정"></a>
-
-                <!--답변 삭제 버튼 추가 -->
-                <a href="javascript:void(0);" th:data-uri="@{|/answer/delete/${answer.id}|}"
-                   class="delete btn btn-sm btn-outline-secondary" sec:authorize="isAuthenticated()"
-                   th:if="${answer.author != null and #authentication.getPrincipal().getUsername() == answer.author.username}"
-                   th:text="삭제"></a>
             </div>
         </div>
+        <!--댓글 테이블-->
+        <table class="table" th:if="${#lists.size(answer.commentList)!=0}" style="display: none"
+               th:id="|comment-ans-${answer.id}|">
+            <thead class="table-dark">
+            <tr class="text-center">
+                <th style="width:70%">내용</th>
+                <th>글쓴이</th>
+                <th>작성일시</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr class="text-center" th:each="answer_comment, loop : ${comment_list}"
+                th:if="${answer_comment.getAnswer() != null and answer_comment.getAnswer().getId() == answer.getId()}">
+                <td class="text-center" th:text="${answer_comment.getContent()}"></td>
+                <td><span th:if="${answer_comment.author != null}" th:text="${answer_comment.author.username}"</td>
+                <td th:text="${#temporals.format(answer_comment.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+            </tr>
+            </tbody>
+        </table>
     </div>
     <!-- 답변 반복 끝  -->
 
@@ -122,7 +192,8 @@
     <div th:if="${!ans_paging.isEmpty()}">
         <ul class="pagination justify-content-center">
             <li class="page-item" th:classappend="${!ans_paging.hasPrevious} ? 'disabled'">
-                <a class="page-link" th:href="@{|?ans-page=${ans_paging.number-1}|}" th:data-page="${ans_paging.number-1}">
+                <a class="page-link" th:href="@{|?ans-page=${ans_paging.number-1}|}"
+                   th:data-page="${ans_paging.number-1}">
                     <span>이전</span>
                 </a>
             </li>
@@ -133,25 +204,15 @@
                 <a th:text="${page}" class="page-link" th:href="@{|?ans-page=${page}|}" th:data-page="${page}"></a>
             </li>
             <li class="page-item" th:classappend="${!ans_paging.hasNext()} ? 'disabled'">
-                <a class="page-link" th:href="@{|?ans-page=${ans_paging.number+1}|}" th:data-page="${ans_paging.number+1}">
+                <a class="page-link" th:href="@{|?ans-page=${ans_paging.number+1}|}"
+                   th:data-page="${ans_paging.number+1}">
                     <span>다음</span>
                 </a>
             </li>
         </ul>
     </div>
-
-    <!-- 답변 작성 -->
-    <form th:action="@{|/answer/create/${question.id}|}" th:object="${answerForm}" method="post" class="my-3">
-        <div th:replace="~{form_errors :: formErrorsFragment}"></div>
-        <!--disabled : Anonymous일 경우 textarea를 볼 수는 있지만, 내용을 입력하거나 수정할 수 없도록 설정-->
-        <!--sec:authorize="isAnonymous() : 로그아웃 상태-->
-        <textarea sec:authorize="isAnonymous()" disabled th:field="*{content}" class="form-control"
-                  rows="10"></textarea>
-        <!--sec:authorize="isAuthenticated() : 로그인 상태-->
-        <textarea sec:authorize="isAuthenticated()" th:field="*{content}" class="form-control" rows="10"></textarea>
-        <input type="submit" value="답변등록" class="btn btn-primary my-2">
-    </form>
 </div>
+
 <!--삭제 버튼을 클릭했을 때 확인 메시지를 띄우고, 사용자가 확인을 누르면 해당 버튼에 지정된 URL로 이동하도록 처리하는 JavaScript 코드-->
 <script layout:fragment="script" type='text/javascript'>
     const delete_elements = document.getElementsByClassName("delete");
@@ -175,6 +236,23 @@
     Array.from(order_elements).forEach(function(element) {
         element.addEventListener('click', function() {
             location.href = this.dataset.uri;
+        })
+    })
+
+    // 댓글 버튼을 누르면 댓글 테이블이 나타남
+    const comment_elements = document.getElementsByClassName("comment btn");
+    Array.from(comment_elements).forEach(function(element) {
+        element.addEventListener('click', function() {
+            const comment_table = document.getElementById("comment-" + element.id)
+            if (comment_table.style.display === 'none') {
+                comment_table.style.display = 'table';
+                element.style.background = 'gray';
+                element.style.color = 'white';
+            } else {
+                comment_table.style.display = 'none';
+                element.style.background = 'white';
+                element.style.color = 'gray';
+            }
         })
     })
 </script>
