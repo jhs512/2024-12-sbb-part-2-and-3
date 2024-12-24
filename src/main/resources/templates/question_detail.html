@@ -78,8 +78,14 @@
                 <tr class="text-center" th:each="question_comment, loop : ${comment_list}"
                     th:if="${question_comment.getAnswer() == null}">
                     <td class="text-center" th:text="${question_comment.getContent()}"></td>
-                    <td><span th:if="${question_comment.author != null}" th:text="${question_comment.author.username}"</td>
-                    <td th:text="${#temporals.format(question_comment.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+                    <td><span th:if="${question_comment.author != null}" th:text="${question_comment.author.username}"
+                    </td>
+                    <span th:text="${#temporals.format(question_comment.createDate, 'yyyy-MM-dd HH:mm')}"></span>
+                    <a th:href="@{|/comment/delete/${question_comment.id}|}" sec:authorize="isAuthenticated()"
+                       th:if="${question_comment.author != null and #authentication.getPrincipal().getUsername() == question_comment.author.username}">
+                        <img src="/images/erase_button.png"/>
+                    </a>
+                    </td>
                 </tr>
                 </tbody>
             </table>
@@ -166,6 +172,7 @@
                 </a>
             </div>
         </div>
+
         <!--댓글 테이블-->
         <table class="table" th:if="${#lists.size(answer.commentList)!=0}" style="display: none"
                th:id="|comment-ans-${answer.id}|">
@@ -181,7 +188,12 @@
                 th:if="${answer_comment.getAnswer() != null and answer_comment.getAnswer().getId() == answer.getId()}">
                 <td class="text-center" th:text="${answer_comment.getContent()}"></td>
                 <td><span th:if="${answer_comment.author != null}" th:text="${answer_comment.author.username}"</td>
-                <td th:text="${#temporals.format(answer_comment.createDate, 'yyyy-MM-dd HH:mm')}"></td>
+                <span th:text="${#temporals.format(answer_comment.createDate, 'yyyy-MM-dd HH:mm')}"></span>
+                <a th:href="@{|/comment/delete/${answer_comment.id}|}" sec:authorize="isAuthenticated()"
+                   th:if="${answer_comment.author != null and #authentication.getPrincipal().getUsername() == answer_comment.author.username}">
+                    <img src="/images/erase_button.png"/>
+                </a>
+                </td>
             </tr>
             </tbody>
         </table>

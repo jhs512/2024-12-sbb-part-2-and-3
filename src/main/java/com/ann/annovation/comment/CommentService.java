@@ -42,4 +42,8 @@ public class CommentService {
     public List<Comment> getCommentList(Question question) {
         return this.commentRepository.findByQuestion(question);
     }
+
+    public void delete(Comment comment) {
+        this.commentRepository.delete(comment);
+    }
 }
