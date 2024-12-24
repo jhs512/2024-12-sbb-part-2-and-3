@@ -1,5 +1,9 @@
 package com.mysite.sbbstudy;
 
+import com.mysite.sbbstudy.answer.Answer;
+import com.mysite.sbbstudy.answer.AnswerRepository;
+import com.mysite.sbbstudy.question.Question;
+import com.mysite.sbbstudy.question.QuestionRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
