@@ -1,6 +1,8 @@
 package com.ll.sbb.question;
 
 import com.ll.sbb.answer.AnswerForm;
+import com.ll.sbb.category.Category;
+import com.ll.sbb.category.CategoryService;
 import com.ll.sbb.user.SiteUser;
 import com.ll.sbb.user.UserService;
 import jakarta.validation.Valid;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
-import java.util.List;
 
 @Controller
 @RequestMapping("/question")
@@ -24,6 +25,7 @@ public class QuestionController {
 
     private final QuestionService questionService;
     private final UserService userService;
+    private final CategoryService categoryService;
 
     @GetMapping("/list")
     public String list(Model model, @RequestParam(value = "page", defaultValue = "0") int page,
@@ -54,7 +56,9 @@ public class QuestionController {
             return "question_form";
         }
         SiteUser user = this.userService.getUser(principal.getName());
-        this.questionService.create(questionForm.getSubject(), questionForm.getContent(), user);
+        Category category = this.categoryService.getCategory(questionForm.getCategory());
+
+        this.questionService.create(questionForm.getSubject(), questionForm.getContent(), category, user);
         return "redirect:/question/list";
     }
 
@@ -67,6 +71,7 @@ public class QuestionController {
         }
         questionForm.setSubject(question.getSubject());
         questionForm.setContent(question.getContent());
+        questionForm.setCategory(question.getCategory().getName());
         return "question_form";
     }
 
@@ -81,7 +86,9 @@ public class QuestionController {
         if (!question.getAuthor().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
-        this.questionService.modify(question, questionForm.getSubject(), questionForm.getContent());
+
+        Category category = this.categoryService.getCategory(questionForm.getCategory());
+        this.questionService.modify(question, questionForm.getSubject(), questionForm.getContent(), category);
         return String.format("redirect:/question/detail/%s", id);
     }
 

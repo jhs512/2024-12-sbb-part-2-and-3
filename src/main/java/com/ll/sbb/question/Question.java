@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.ll.sbb.answer.Answer;
+import com.ll.sbb.category.Category;
 import com.ll.sbb.user.SiteUser;
 import jakarta.persistence.*;
 
@@ -36,4 +37,7 @@ public class Question {
 
     @ManyToMany
     Set<SiteUser> voter;
+
+    @ManyToOne
+    private Category category;
 }

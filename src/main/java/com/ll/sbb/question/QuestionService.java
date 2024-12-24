@@ -7,6 +7,8 @@ import java.util.Optional;
 
 import com.ll.sbb.DataNotFoundException;
 import com.ll.sbb.answer.Answer;
+import com.ll.sbb.category.Category;
+import com.ll.sbb.category.CategoryRepository;
 import com.ll.sbb.user.SiteUser;
 import jakarta.persistence.criteria.*;
 import org.springframework.data.domain.Page;
@@ -23,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class QuestionService {
 
     private final QuestionRepository questionRepository;
+    private final CategoryRepository categoryRepository;
 
     public Page<Question> getList(int page, String kw) {
         List<Sort.Order> sorts = new ArrayList<>();
@@ -41,19 +44,23 @@ public class QuestionService {
         }
     }
 
-    public void create(String subject, String content, SiteUser user) {
+    public void create(String subject, String content, Category category, SiteUser user) {
         Question q = new Question();
         q.setSubject(subject);
         q.setContent(content);
         q.setCreateDate(LocalDateTime.now());
         q.setAuthor(user);
+        q.setCategory(category);
+        category.getQuestions().add(q);
         this.questionRepository.save(q);
     }
 
-    public void modify(Question question, String subject, String content) {
+    public void modify(Question question, String subject, String content, Category category) {
         question.setSubject(subject);
         question.setContent(content);
         question.setModifyDate(LocalDateTime.now());
+        question.setCategory(category);
+        category.getQuestions().add(question);
         this.questionRepository.save(question);
     }
 

@@ -1,7 +1,6 @@
 package com.ll.sbb.answer;
 
 import com.ll.sbb.question.Question;
-import com.ll.sbb.question.Question;
 import com.ll.sbb.question.QuestionService;
 import com.ll.sbb.user.SiteUser;
 import com.ll.sbb.user.UserService;
