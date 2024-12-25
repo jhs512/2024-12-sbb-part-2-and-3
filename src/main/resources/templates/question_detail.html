@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 
-<html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.w3.org/1999/xhtml">
+<html layout:decorate="~{layout}"></html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question Detail</title>
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Optional: Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/5hb7VtF3IG4ex1nC2bcF1Db5a6GdrgOTr5wiF2" crossorigin="anonymous">
+</head>
+
 <div layout:fragment="content" class="container my-3">
 
     <!-- 질문 -->
@@ -60,35 +74,52 @@
 
                 <!-- Question 오른쪽 버튼 -->
                 <a href="javascript:void(0);" class="comment btn btn-sm btn-outline-secondary"
-                   th:id="|question-${question.id}|" th:text="|댓글 ${#lists.size(question.getCommentList())}">
+                   th:id="|question-${question.id}|"
+                   th:text="|댓글 ${#lists.size(comment_list)}|">
                 </a>
             </div>
 
-            <!--댓글 Table-->
-            <table class="table" th:if="${#lists.size(question.commentList)!=0}" style="display: none"
-                   th:id="|comment-question-${question.id}|">
-                <thead class="table-dark">
-                <tr class="text-center">
-                    <th style="width:70%">내용</th>
-                    <th>글쓴이</th>
-                    <th>작성일시</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr class="text-center" th:each="question_comment, loop : ${comment_list}"
-                    th:if="${question_comment.getAnswer() == null}">
-                    <td class="text-center" th:text="${question_comment.getContent()}"></td>
-                    <td><span th:if="${question_comment.author != null}" th:text="${question_comment.author.username}"
-                    </td>
-                    <span th:text="${#temporals.format(question_comment.createDate, 'yyyy-MM-dd HH:mm')}"></span>
-                    <a th:href="@{|/comment/delete/${question_comment.id}|}" sec:authorize="isAuthenticated()"
-                       th:if="${question_comment.author != null and #authentication.getPrincipal().getUsername() == question_comment.author.username}">
-                        <img src="/images/erase_button.png"/>
-                    </a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+            <!--Question 댓글 Table-->
+            <div style="display: none" th:id="|comment-question-${question.id}|">
+                <table class="table" th:if="${not #lists.isEmpty(comment_list)}">
+                    <thead class="table-dark">
+                    <tr class="text-center">
+                        <th style="width:70%">내용</th>
+                        <th>글쓴이</th>
+                        <th>작성일시</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="text-center" th:each="question_comment : ${comment_list}">
+                        <td class="text-center" th:text="${question_comment.content}"></td>
+                        <td>
+                            <span th:if="${question_comment.author != null}"
+                                  th:text="${question_comment.author.username}"></span>
+                        </td>
+                        <td>
+                            <span th:text="${#temporals.format(question_comment.createDate, 'yyyy-MM-dd HH:mm')}"></span>
+                            <a th:href="@{|/comment/delete/${question_comment.id}|}"
+                               sec:authorize="isAuthenticated()"
+                               th:if="${question_comment.author != null and #authentication.getPrincipal().getUsername() == question_comment.author.username}">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <!-- 질문 댓글 작성 -->
+                <form th:action="@{|/comment/create/question/${question.id}|}" th:object="${commentForm}" method="post"
+                      class="my-3">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                    <div th:replace="~{form_errors :: formErrorsFragment}"></div>
+                    <textarea sec:authorize="isAnonymous()" disabled th:field="*{content}" class="form-control"
+                              rows="10"></textarea>
+                    <textarea sec:authorize="isAuthenticated()" th:field="*{content}" class="form-control"
+                              rows="10"></textarea>
+                    <input type="submit" value="댓글 등록" class="btn btn-primary my-2">
+                </form>
+            </div>
         </div>
     </div>
 
@@ -166,63 +197,80 @@
                        th:if="${answer.author != null and #authentication.getPrincipal().getUsername() == answer.author.username}"
                        th:text="삭제"></a>
                 </div>
-                <!-- 오른쪽 버튼 -->
+                <!-- Answer 오른쪽 버튼 -->
                 <a href="javascript:void(0);" class="comment btn btn-sm btn-outline-secondary"
                    th:id="|ans-${answer.id}|" th:text="|댓글 ${#lists.size(answer.getCommentList())}|">
                 </a>
             </div>
         </div>
 
-        <!--댓글 테이블-->
-        <table class="table" th:if="${#lists.size(answer.commentList)!=0}" style="display: none"
-               th:id="|comment-ans-${answer.id}|">
-            <thead class="table-dark">
-            <tr class="text-center">
-                <th style="width:70%">내용</th>
-                <th>글쓴이</th>
-                <th>작성일시</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr class="text-center" th:each="answer_comment, loop : ${comment_list}"
-                th:if="${answer_comment.getAnswer() != null and answer_comment.getAnswer().getId() == answer.getId()}">
-                <td class="text-center" th:text="${answer_comment.getContent()}"></td>
-                <td><span th:if="${answer_comment.author != null}" th:text="${answer_comment.author.username}"</td>
-                <span th:text="${#temporals.format(answer_comment.createDate, 'yyyy-MM-dd HH:mm')}"></span>
-                <a th:href="@{|/comment/delete/${answer_comment.id}|}" sec:authorize="isAuthenticated()"
-                   th:if="${answer_comment.author != null and #authentication.getPrincipal().getUsername() == answer_comment.author.username}">
-                    <img src="/images/erase_button.png"/>
-                </a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+        <!--Answer 댓글 테이블-->
+        <div style="display: none" th:id="|comment-ans-${answer.id}|">
+            <table class="table" th:if="${not #lists.isEmpty(answer.commentList)}">
+                <thead class="table-dark">
+                <tr class="text-center">
+                    <th style="width:70%">내용</th>
+                    <th>글쓴이</th>
+                    <th>작성일시</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="text-center" th:each="answer_comment : ${answer.commentList}">
+                    <td class="text-center" th:text="${answer_comment.content}"></td>
+                    <td>
+                <span th:if="${answer_comment.author != null}"
+                      th:text="${answer_comment.author.username}"></span>
+                    </td>
+                    <td>
+                        <span th:text="${#temporals.format(answer_comment.createDate, 'yyyy-MM-dd HH:mm')}"></span>
+                        <a th:href="@{|/comment/delete/${answer_comment.id}|}"
+                           sec:authorize="isAuthenticated()"
+                           th:if="${answer_comment.author != null and #authentication.getPrincipal().getUsername() == answer_comment.author.username}">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- 질문 댓글 작성 -->
+        <form th:action="@{|/comment/create/answer/${answer.id}|}" th:object="${commentForm}" method="post"
+              class="my-3">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+            <div th:replace="~{form_errors :: formErrorsFragment}"></div>
+            <textarea sec:authorize="isAnonymous()" disabled th:field="*{content}" class="form-control"
+                      rows="10"></textarea>
+            <textarea sec:authorize="isAuthenticated()" th:field="*{content}" class="form-control"
+                      rows="10"></textarea>
+            <input type="submit" value="댓글 등록" class="btn btn-primary my-2">
+        </form>
     </div>
-    <!-- 답변 반복 끝  -->
+</div>
+<!-- 답변 반복 끝  -->
 
-    <!-- 답변 페이징 처리 시작 -->
-    <div th:if="${!ans_paging.isEmpty()}">
-        <ul class="pagination justify-content-center">
-            <li class="page-item" th:classappend="${!ans_paging.hasPrevious} ? 'disabled'">
-                <a class="page-link" th:href="@{|?ans-page=${ans_paging.number-1}|}"
-                   th:data-page="${ans_paging.number-1}">
-                    <span>이전</span>
-                </a>
-            </li>
-            <li th:each="page: ${#numbers.sequence(0, ans_paging.totalPages-1)}"
-                th:if="${page >= ans_paging.number - 5 and page <= ans_paging.number+5}"
-                th:classappend="${page == ans_paging.number} ? 'active'"
-                class="page-item">
-                <a th:text="${page}" class="page-link" th:href="@{|?ans-page=${page}|}" th:data-page="${page}"></a>
-            </li>
-            <li class="page-item" th:classappend="${!ans_paging.hasNext()} ? 'disabled'">
-                <a class="page-link" th:href="@{|?ans-page=${ans_paging.number+1}|}"
-                   th:data-page="${ans_paging.number+1}">
-                    <span>다음</span>
-                </a>
-            </li>
-        </ul>
-    </div>
+<!-- 답변 페이징 처리 시작 -->
+<div th:if="${!ans_paging.isEmpty()}">
+    <ul class="pagination justify-content-center">
+        <li class="page-item" th:classappend="${!ans_paging.hasPrevious} ? 'disabled'">
+            <a class="page-link" th:href="@{|?ans-page=${ans_paging.number-1}|}"
+               th:data-page="${ans_paging.number-1}">
+                <span>이전</span>
+            </a>
+        </li>
+        <li th:each="page: ${#numbers.sequence(0, ans_paging.totalPages-1)}"
+            th:if="${page >= ans_paging.number - 5 and page <= ans_paging.number+5}"
+            th:classappend="${page == ans_paging.number} ? 'active'"
+            class="page-item">
+            <a th:text="${page}" class="page-link" th:href="@{|?ans-page=${page}|}" th:data-page="${page}"></a>
+        </li>
+        <li class="page-item" th:classappend="${!ans_paging.hasNext()} ? 'disabled'">
+            <a class="page-link" th:href="@{|?ans-page=${ans_paging.number+1}|}"
+               th:data-page="${ans_paging.number+1}">
+                <span>다음</span>
+            </a>
+        </li>
+    </ul>
+</div>
 </div>
 
 <!--삭제 버튼을 클릭했을 때 확인 메시지를 띄우고, 사용자가 확인을 누르면 해당 버튼에 지정된 URL로 이동하도록 처리하는 JavaScript 코드-->
@@ -251,21 +299,31 @@
         })
     })
 
-    // 댓글 버튼을 누르면 댓글 테이블이 나타남
+    // 댓글 버튼을 누르면 댓글을 보여주거나 숨기고, 버튼의 색깔을 바꿈
     const comment_elements = document.getElementsByClassName("comment btn");
     Array.from(comment_elements).forEach(function(element) {
         element.addEventListener('click', function() {
-            const comment_table = document.getElementById("comment-" + element.id)
-            if (comment_table.style.display === 'none') {
-                comment_table.style.display = 'table';
-                element.style.background = 'gray';
-                element.style.color = 'white';
-            } else {
-                comment_table.style.display = 'none';
-                element.style.background = 'white';
-                element.style.color = 'gray';
+            let commentId;
+            if (element.id.startsWith('ans-')) {
+                commentId = 'comment-ans-' + element.id.split('-')[1];
+            } else if (element.id.startsWith('question-')) {
+                commentId = 'comment-question-' + element.id.split('-')[1];
             }
-        })
-    })
+
+            const comment_table = document.getElementById(commentId);
+
+            if (comment_table) {
+                if (comment_table.style.display === 'none') {
+                    comment_table.style.display = 'block';
+                    element.style.background = 'gray';
+                    element.style.color = 'white';
+                } else {
+                    comment_table.style.display = 'none';
+                    element.style.background = 'white';
+                    element.style.color = 'gray';
+                }
+        }
+    });
+});
 </script>
 </html>

@@ -1,22 +1,30 @@
 package com.ann.annovation.question;
 
-import com.ann.annovation.answer.Answer;
-import com.ann.annovation.answer.AnswerForm;
-import com.ann.annovation.answer.AnswerService;
-import com.ann.annovation.user.SiteUser;
-import com.ann.annovation.user.UserService;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
+import java.security.Principal;
+
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.security.Principal;
+import com.ann.annovation.answer.Answer;
+import com.ann.annovation.answer.AnswerForm;
+import com.ann.annovation.answer.AnswerService;
+import com.ann.annovation.comment.CommentForm;
+import com.ann.annovation.comment.CommentService;
+import com.ann.annovation.user.SiteUser;
+import com.ann.annovation.user.UserService;
+
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @RequestMapping("/question")
 @RequiredArgsConstructor
@@ -26,11 +34,12 @@ public class QuestionController {
     private final QuestionService questionService;
     private final UserService userService;
     private final AnswerService answerService;
+    private final CommentService commentService;
 
     @GetMapping("/list")
-    public  String list(
+    public String list(
             Model model,
-            @RequestParam(value="page", defaultValue="0") int page,
+            @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "kw", defaultValue = "") String kw
     ) {
         Page<Question> paging = this.questionService.getList(page, kw);
@@ -42,13 +51,14 @@ public class QuestionController {
         // 렌더링(Rendering)은 데이터를 사용자가 볼 수 있는 화면으로 변환하는 과정
         return "question_list";
     }
+
     @GetMapping(value = "/detail/{id}")
     public String detail(
             Model model,
             @PathVariable("id") Integer id,
             AnswerForm answerForm,
-            @RequestParam(value="ans-page", defaultValue="0") int answerPage,
-            @RequestParam(value="ans-ordering", defaultValue="time") String answerOrderMethod) {
+            @RequestParam(value = "ans-page", defaultValue = "0") int answerPage,
+            @RequestParam(value = "ans-ordering", defaultValue = "time") String answerOrderMethod) {
 
         // AnswerForm 객체를 템플릿에 전달하여 폼 데이터와 연결합니다.
         // QuestionService의 getQuestion 메서드를 호출하여 특정 id에 해당하는 질문 데이터를 가져옴
@@ -63,6 +73,15 @@ public class QuestionController {
         model.addAttribute("question", question);
 
         model.addAttribute("ans_paging", answerPaging);
+        model.addAttribute("commentForm", new CommentForm());
+        // 질문 댓글 목록
+        model.addAttribute("comment_list", this.commentService.getCommentList(question));
+
+        // 답변별 댓글 목록
+        for (Answer answer : answerPaging) {
+            model.addAttribute("answer_comments_" + answer.getId(),
+                    this.commentService.getAnswerCommentList(answer));
+        }
         return "question_detail";
     }
 
@@ -96,7 +115,7 @@ public class QuestionController {
             @PathVariable("id") Integer id,
             Principal principal) {
         Question question = this.questionService.getQuestion(id);
-        if(!question.getAuthor().getUsername().equals(principal.getName())) {
+        if (!question.getAuthor().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
         }
         questionForm.setSubject(question.getSubject());

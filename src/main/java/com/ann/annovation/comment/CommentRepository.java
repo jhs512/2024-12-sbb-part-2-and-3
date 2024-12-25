@@ -1,10 +1,13 @@
 package com.ann.annovation.comment;
 
-import com.ann.annovation.question.Question;
-import org.springframework.data.jpa.repository.JpaRepository;
-
 import java.util.List;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.ann.annovation.answer.Answer;
+import com.ann.annovation.question.Question;
+
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
-    List<Comment> findByQuestion(Question question);
+    List<Comment> findByQuestionAndAnswerIsNull(Question question);
+    List<Comment> findByAnswer(Answer answer);
 }

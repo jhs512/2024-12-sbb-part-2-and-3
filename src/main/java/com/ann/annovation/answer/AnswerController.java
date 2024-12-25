@@ -1,11 +1,7 @@
 package com.ann.annovation.answer;
 
-import com.ann.annovation.question.Question;
-import com.ann.annovation.question.QuestionService;
-import com.ann.annovation.user.SiteUser;
-import com.ann.annovation.user.UserService;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
+import java.security.Principal;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -17,7 +13,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.security.Principal;
+import com.ann.annovation.comment.CommentService;
+import com.ann.annovation.question.Question;
+import com.ann.annovation.question.QuestionService;
+import com.ann.annovation.user.SiteUser;
+import com.ann.annovation.user.UserService;
+
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 @RequestMapping("/answer")
 @RequiredArgsConstructor
@@ -27,6 +30,7 @@ public class AnswerController {
     private final QuestionService questionService;
     private final AnswerService answerService;
     private final UserService userService;
+    private final CommentService commentService;
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/create/{id}")
@@ -38,12 +42,14 @@ public class AnswerController {
     ) {
         Question question = this.questionService.getQuestion(id);
         SiteUser siteUser = this.userService.getUser(principal.getName());
+        
         if (bindingResult.hasErrors()) {
             model.addAttribute("question", question);
             return "question_detail";
         }
-        Answer answer = this.answerService.create(question,
-                answerForm.getContent(), siteUser);
+        Answer answer = this.answerService.create(question, answerForm.getContent(), siteUser);
+        model.addAttribute("answer_comments", this.commentService.getAnswerCommentList(answer));
+        
         return String.format("redirect:/question/detail/%s#answer_%s",
                 answer.getQuestion().getId(), answer.getId());
     }
