@@ -2,9 +2,11 @@ package com.ll.sbb.answer;
 
 import com.ll.sbb.question.Question;
 import com.ll.sbb.question.QuestionService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -18,10 +20,17 @@ public class AnswerController {
     @PostMapping("/create/{id}")
     public String createAnswer(@PathVariable("id") long id
             , Model model
-            , @RequestParam(value = "content") String content) {
+            , @Valid AnswerForm answerForm
+            , BindingResult bindingResult) {
 
         Question question = questionService.getQuestion(id);
-        answerService.create(content, question);
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("question" , question);
+            return "question_detail";
+        }
+
+        answerService.create(answerForm.getContent(), question);
         return "redirect:/question/detail/%d".formatted(id);
     }
 }
