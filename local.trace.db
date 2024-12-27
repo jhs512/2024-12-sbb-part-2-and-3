@@ -327,3 +327,18 @@ Caused by: org.h2.mvstore.MVStoreException: The file is locked: /Users/loong/Doc
 	at org.h2.mvstore.SingleFileStore.open(SingleFileStore.java:81)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:286)
 	... 137 more
+2024-12-27 16:46:23.050552+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]undate answer set id = 2 where id = 6"; expected "UPDATE"; SQL statement:
+undate answer set id = 2 where id = 6 [42001-232]
+2024-12-27 16:46:44.280918+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]desc ANSWER"; expected "DELETE, DROP"; SQL statement:
+desc ANSWER [42001-232]
+2024-12-27 16:46:49.279824+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]desc  from ANSWER"; expected "DELETE, DROP"; SQL statement:
+desc  from ANSWER [42001-232]
+2024-12-27 16:46:51.313017+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]desc  rom ANSWER"; expected "DELETE, DROP"; SQL statement:
+desc  rom ANSWER [42001-232]
+2024-12-27 16:47:00.362871+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]ID"; expected "INSERT"; SQL statement:
+ID [42001-232]

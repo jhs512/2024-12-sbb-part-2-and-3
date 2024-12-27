@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
+@RequestMapping("/question") // URL 프리 픽스
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/question") // URL 프리 픽스
 public class QuestionController {
 
     private final QuestionService questionService;
