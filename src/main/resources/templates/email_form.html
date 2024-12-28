@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>비밀번호 찾기</title>
+</head>
+<body>
+<h1 style="color: blue;">안녕하세요. Sbb 게시판입니다. <span th:text="${name}"></span>님.</h1>
+<p>비밀번호 찾기 서비스입니다.</p>
+<p>링크를 클릭하여 비밀번호 초기화를 해주시길 바랍니다.</p>
+<a th:href="${verificationUrl}">비밀번호 초기화</a>
+</body>
+</html>

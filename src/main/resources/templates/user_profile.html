@@ -1,0 +1,56 @@
+<html lang="en">
+<div class="container mt-5">
+  <!-- 사용자 정보 -->
+  <div class="card mb-4">
+    <div class="card-header text-white bg-primary">
+      <h1 class="h3 mb-0">User Profile</h1>
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">Basic Information</h5>
+      <p class="mb-1"><strong>Username:</strong> <span th:text="${userDto.username}"></span></p>
+      <p><strong>Email:</strong> <span th:text="${userDto.email}"></span></p>
+    </div>
+  </div>
+
+  <!-- 사용자가 작성한 질문 -->
+  <div class="card mb-4">
+    <div class="card-header bg-secondary text-white">
+      <h5 class="mb-0">Questions</h5>
+    </div>
+    <div class="card-body">
+      <ul class="list-group">
+        <th:block th:each="question : ${userDto.questions}">
+          <li class="list-group-item" th:text="${question.subject}"></li>
+        </th:block>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 사용자가 작성한 답변 -->
+  <div class="card mb-4">
+    <div class="card-header bg-success text-white">
+      <h5 class="mb-0">Answers</h5>
+    </div>
+    <div class="card-body">
+      <ul class="list-group">
+        <th:block th:each="answer : ${userDto.answers}">
+          <li class="list-group-item" th:text="${answer.content}"></li>
+        </th:block>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 사용자가 작성한 댓글 -->
+  <div class="card mb-4">
+    <div class="card-header bg-info text-white">
+      <h5 class="mb-0">Comments</h5>
+    </div>
+    <div class="card-body">
+      <ul class="list-group">
+        <th:block th:each="comment : ${userDto.comments}">
+          <li class="list-group-item" th:text="${comment.content}"></li>
+        </th:block>
+      </ul>
+    </div>
+  </div>
+</div>
