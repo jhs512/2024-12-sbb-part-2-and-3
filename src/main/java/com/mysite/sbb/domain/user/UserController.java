@@ -119,4 +119,5 @@ public class UserController {
         userService.resetPassword(user,userPasswordResetForm.getPassword1());
         return "password_rested";
     }
+
 }
