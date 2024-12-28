@@ -4,6 +4,7 @@ import com.ll.sbb.answer.Answer;
 import com.ll.sbb.answer.AnswerRepository;
 import com.ll.sbb.question.Question;
 import com.ll.sbb.question.QuestionRepository;
+import com.ll.sbb.question.QuestionService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,6 +25,9 @@ class SbbApplicationTests {
 
 	@Autowired
 	private AnswerRepository answerRepository;
+
+    @Autowired
+    private QuestionService questionService;
 
 	@Test
 	void t1() {
@@ -137,4 +141,12 @@ class SbbApplicationTests {
 		assertEquals("네 자동으로 생성됩니다.", answerList.get(0).getContent());
 	}
 
+	@Test
+	void t12() {
+		for (int i = 1; i <= 300; i++) {
+			String subject = "테스트 데이터:[%03d]".formatted(i);
+			String content = "내용없음";
+			questionService.create(subject, content);
+		}
+	}
 }
