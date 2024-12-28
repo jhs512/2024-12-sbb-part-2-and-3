@@ -5,6 +5,8 @@ import com.ll.sbb.answer.AnswerRepository;
 import com.ll.sbb.question.Question;
 import com.ll.sbb.question.QuestionRepository;
 import com.ll.sbb.question.QuestionService;
+import com.ll.sbb.user.SiteUser;
+import com.ll.sbb.user.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,6 +30,8 @@ class SbbApplicationTests {
 
     @Autowired
     private QuestionService questionService;
+    @Autowired
+    private UserService userService;
 
 	@Test
 	void t1() {
@@ -143,10 +147,11 @@ class SbbApplicationTests {
 
 	@Test
 	void t12() {
+		SiteUser user = userService.create("admin", "admin@test.com", "1234");
 		for (int i = 1; i <= 300; i++) {
 			String subject = "테스트 데이터:[%03d]".formatted(i);
 			String content = "내용없음";
-			questionService.create(subject, content);
+			questionService.create(subject, content, user);
 		}
 	}
 }

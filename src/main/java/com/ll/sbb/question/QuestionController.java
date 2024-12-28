@@ -1,14 +1,18 @@
 package com.ll.sbb.question;
 
 import com.ll.sbb.answer.AnswerForm;
+import com.ll.sbb.user.SiteUser;
+import com.ll.sbb.user.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -17,6 +21,7 @@ import java.util.List;
 public class QuestionController {
 
     private final QuestionService questionService;
+    private final UserService userService;
 
     @GetMapping("/list")
     public String list(Model model
@@ -34,19 +39,25 @@ public class QuestionController {
     }
 
     @GetMapping("/create")
+    @PreAuthorize("isAuthenticated()")
     public String questionCreate(QuestionForm questionForm) {
         return "question_form";
     }
 
     @PostMapping("/create")
+    @PreAuthorize("isAuthenticated()")
     public String questionCreate(@Valid QuestionForm questionForm
-            , BindingResult bindingResult) {
+            , BindingResult bindingResult
+            , Principal principal) {
 
         if (bindingResult.hasErrors()) {
             return "question_form";
         }
 
-        questionService.create(questionForm.getSubject(), questionForm.getContent());
+        SiteUser user = userService.getUser(principal.getName());
+
+        questionService.create(questionForm.getSubject(), questionForm.getContent(), user);
+
         return "redirect:/question/list";
     }
 }

@@ -1,11 +1,13 @@
 package com.ll.sbb.question;
 
 import com.ll.sbb.DataNotFoundException;
+import com.ll.sbb.user.SiteUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -25,18 +27,16 @@ public class QuestionService {
 
     public Question getQuestion(long id) {
         Optional<Question> op = questionRepository.findById(id);
-        if (op.isPresent()) {
-            return op.get();
-        } else {
-            throw new DataNotFoundException("question not found");
-        }
+        op.orElseThrow(() -> new DataNotFoundException("question not found"));
+        return op.get();
     }
 
-    public void create(String subject, String content) {
+    public void create(String subject, String content, SiteUser user) {
         Question question = new Question();
         question.setSubject(subject);
         question.setContent(content);
         question.setCreateDate(LocalDateTime.now());
+        question.setUser(user);
 
         questionRepository.save(question);
     }
