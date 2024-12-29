@@ -16,7 +16,7 @@ public class AnswerService {
 
     private final AnswerRepository answerRepository;
 
-    public void create(String content, Question question, SiteUser user) {
+    public Answer create(String content, Question question, SiteUser user) {
         Answer answer = new Answer();
         answer.setContent(content);
         answer.setQuestion(question);
@@ -24,6 +24,8 @@ public class AnswerService {
         answer.setUser(user);
 
         answerRepository.save(answer);
+
+        return answer;
     }
 
     public Answer getAnswer(long id) {

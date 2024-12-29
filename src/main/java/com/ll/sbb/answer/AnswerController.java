@@ -41,8 +41,9 @@ public class AnswerController {
             return "question_detail";
         }
 
-        answerService.create(answerForm.getContent(), question, user);
-        return "redirect:/question/detail/%d".formatted(id);
+        Answer answer = answerService.create(answerForm.getContent(), question, user);
+
+        return "redirect:/question/detail/%s#answer_%s".formatted(answer.getQuestion().getId(), answer.getId());
     }
 
     @GetMapping("/modify/{id}")
@@ -110,6 +111,6 @@ public class AnswerController {
 
         answerService.vote(answer, user);
 
-        return "redirect:/question/detail/%d".formatted(answer.getQuestion().getId());
+        return "redirect:/question/detail/%s#answer_%s".formatted(answer.getQuestion().getId(), answer.getId());
     }
 }
