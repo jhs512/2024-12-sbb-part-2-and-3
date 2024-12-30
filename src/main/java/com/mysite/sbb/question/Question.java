@@ -1,6 +1,7 @@
 package com.mysite.sbb.question;
 
 import com.mysite.sbb.answer.Answer;
+import com.mysite.sbb.user.SiteUser;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,6 +26,9 @@ public class Question {
 
     private LocalDateTime createDate;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE) // 질문 삭제 시 달려 있는 답볍도 삭제
+    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE) // 질문 삭제 시 달려 있는 답변도 삭제
     private List<Answer> answerList;
+
+    @ManyToOne
+    private SiteUser author;
 }
