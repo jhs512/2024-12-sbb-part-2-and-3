@@ -38,6 +38,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+    implementation 'org.commonmark:commonmark:0.21.0' // 스브링 부트 내부 라이브러리가 아니기 때문에 버전 정보 명시
 }
 
 tasks.named('test') {
