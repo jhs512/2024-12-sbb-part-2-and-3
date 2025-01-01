@@ -1,0 +1,173 @@
+[33mcommit 40fab1412af604cb3de8d3bd9a2a396ff96608cb[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mdevelop[m[33m, [m[1;31morigin/develop[m[33m)[m
+Author: baekminjin <bhs3392@naver.com>
+Date:   Thu Jan 2 01:14:56 2025 +0900
+
+    작업sbb
+
+[33mcommit f39d0e196ee102343d4cef844ce768121578b780[m
+Author: baekminjin <bhs3392@naver.com>
+Date:   Thu Jan 2 00:47:12 2025 +0900
+
+    sbb
+
+[33mcommit 80674f6c54a84b899f6f2e20b1472d53548936cd[m
+Author: baekminjin <bhs3392@naver.com>
+Date:   Thu Jan 2 00:29:59 2025 +0900
+
+    end
+
+[33mcommit 5b07a3154a6a77fa23dce7c1a1c8d9f698320f8d[m
+Author: baekminjin <bhs3392@naver.com>
+Date:   Wed Jan 1 23:58:32 2025 +0900
+
+    3-13 search
+
+[33mcommit d3106c86cfc19ea05b5368f58a9a965fea4d7e3c[m
+Author: baekminjin <bhs3392@naver.com>
+Date:   Wed Jan 1 23:50:57 2025 +0900
+
+    3-12 markdown
+
+[33mcommit 6f8bf40e1c2401393bfa28d45d2563494828d93e[m
+Author: baekminjin <bhs3392@naver.com>
+Date:   Wed Jan 1 23:45:41 2025 +0900
+
+    3-11 Anchor
+
+[33mcommit d144afc2ee903aed01952228a622c07ee19bd7cb[m
+Author: baekminjin <bhs3392@naver.com>
+Date:   Wed Jan 1 23:42:10 2025 +0900
+
+    3-10 recommend
+
+[33mcommit 448b23a6faab5e2080ec1c9be96b511b61dedb6b[m
+Author: baekminjin <bhs3392@naver.com>
+Date:   Wed Jan 1 23:34:52 2025 +0900
+
+    3-09 Modify and Delete
+
+[33mcommit 0c4985ea9ccf9acaaadfb05c163fd66b4cd76ac3[m
+Author: baekminjin <bhs3392@naver.com>
+Date:   Wed Jan 1 23:16:02 2025 +0900
+
+    3-08 Author
+
+[33mcommit 67e576bd178f3ecbe8a31ed1335c4eda7b638685[m
+Author: baekminjin <bhs3392@naver.com>
+Date:   Wed Jan 1 23:04:30 2025 +0900
+
+    3-07 login , logout
+
+[33mcommit e34ea2baa1deca28b841c8a429f72c8871241b84[m
+Author: baekminjin <bhs3392@naver.com>
+Date:   Wed Jan 1 22:56:13 2025 +0900
+
+    3-06 join the membership
+
+[33mcommit b61d58efc4035ed7ee0e3b847e52a3f5726fab0c[m
+Author: baekminjin <bhs3392@naver.com>
+Date:   Wed Jan 1 22:47:50 2025 +0900
+
+    3-05 spring security
+
+[33mcommit a514390b28496d454606443287674a80a4dba452[m
+Author: baekminjin <bhs3392@naver.com>
+Date:   Wed Jan 1 22:45:00 2025 +0900
+
+    3-04 answer number
+
+[33mcommit 69c3c21c2c61209c7cf8d5c11f60a0a64f80e374[m
+Author: baekminjin <bhs3392@naver.com>
+Date:   Wed Jan 1 22:44:03 2025 +0900
+
+    3-03 page number
+
+[33mcommit 42f77fec6851d7a5254122dbb8e21c37cc9dc5ff[m
+Author: baekminjin <bhs3392@naver.com>
+Date:   Wed Jan 1 22:42:21 2025 +0900
+
+    3-02 paging
+
+[33mcommit 2543a5df85c57f07bca91886c3bd5e8329815409[m
+Author: baekminjin <bhs3392@naver.com>
+Date:   Wed Jan 1 22:20:42 2025 +0900
+
+    3-01 nav
+
+[33mcommit 07facc4f6f87cff8530e4cfa6c88733d5b097c57[m
+Author: baekminjin <bhs3392@naver.com>
+Date:   Tue Dec 24 09:47:03 2024 +0900
+
+    2-15 standard_HTML , 2-16 question register
+
+[33mcommit 3990074726e203849810fe983b9f1022d2b234d5[m
+Author: baekminjin <bhs3392@naver.com>
+Date:   Tue Dec 24 09:44:42 2024 +0900
+
+    2-14 bootstrap
+
+[33mcommit 6e98df256821adab32d42fe09efd932d5d472895[m
+Author: baekminjin <bhs3392@naver.com>
+Date:   Tue Dec 24 09:40:06 2024 +0900
+
+    2-13 web_page_design
+
+[33mcommit bddfd509cbabd25a855a4e87a45c25b348ea8142[m
+Author: baekminjin <bhs3392@naver.com>
+Date:   Tue Dec 24 09:38:42 2024 +0900
+
+    2-12 answer
+
+[33mcommit 1777d727fbb5c8e595e1c52d7bacf38c5ec1510c[m
+Author: baekminjin <bhs3392@naver.com>
+Date:   Tue Dec 24 09:36:14 2024 +0900
+
+    2-11 prefix
+
+[33mcommit c454aa5343b5bbba8f08072bd13ca777fa4e886d[m
+Author: baekminjin <bhs3392@naver.com>
+Date:   Tue Dec 24 09:35:32 2024 +0900
+
+    2-10 detail_page
+
+[33mcommit 8363f0c7602417c8bd5fe56e802d43e98cc9feb9[m
+Author: baekminjin <bhs3392@naver.com>
+Date:   Tue Dec 24 09:30:10 2024 +0900
+
+    2-09 service
+
+[33mcommit 98c7f8080fecb362c7a85cc9308b236cbad51de5[m
+Author: baekminjin <bhs3392@naver.com>
+Date:   Tue Dec 24 09:29:00 2024 +0900
+
+    2-08 root URL
+
+[33mcommit 9ca96d01bb63ebc4896a8190ebde3135cf6e408a[m
+Author: baekminjin <bhs3392@naver.com>
+Date:   Tue Dec 24 09:27:57 2024 +0900
+
+    2-07 question_list
+
+[33mcommit b9174a7127f6b70b9504adaaf058502f27175db5[m
+Author: baekminjin <bhs3392@naver.com>
+Date:   Tue Dec 24 09:23:13 2024 +0900
+
+    2-06 domain
+
+[33mcommit 6b98299c4fdbc98d5083a6d1151f19820ea67bbb[m
+Author: baekminjin <bhs3392@naver.com>
+Date:   Tue Dec 24 09:21:51 2024 +0900
+
+    2-05 Repository
+
+[33mcommit 75ec9d0b456655fffd6289837d0b93a71335866e[m
+Author: baekminjin <bhs3392@naver.com>
+Date:   Mon Dec 23 17:06:29 2024 +0900
+
+    2-04 entity
+
+[33mcommit 937b164ff2b6c5d45012eaf263a7c84cdfda1dab[m
+Author: baekminjin <bhs3392@naver.com>
+Date:   Mon Dec 23 16:45:22 2024 +0900
+
+    setting
